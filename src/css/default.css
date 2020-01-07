@@ -5,6 +5,7 @@
 ul,ol{list-style: none;}
 a{color: inherit; text-decoration: none;}
 body{font-size: 12px; line-height: 1.5;}
+input{font: inherit;}
 
 /* layout */
 
@@ -13,12 +14,13 @@ body{font-size: 12px; line-height: 1.5;}
     height: 100vh;
 }
 .page > aside {
-    width: 200px;
+    width: 250px;
     display: flex;
     flex-direction: column;
 }
 .page > main {
     flex-grow: 1;
+    
 }
 
 
@@ -28,29 +30,73 @@ body{font-size: 12px; line-height: 1.5;}
     text-align: center;
     padding: 10px;
 }
+.songList-container{
+    flex-grow: 1;
+}
 .songList{
     text-align: left;
     border-top: 1px solid #999;
-    flex-grow: 1;
 }
 .songList > li{
     text-align: left;
     border-bottom: 1px solid #ddd;
     padding: 10px;
 }
-.uploadArea{}
 
 .draggable{
     border: 2px dashed #ddd;
     border-radius: 4px;
-    padding: 20px;
+    padding: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 200px;
+    width: 250px;
     flex-direction: column;
 }
 .clickable{
     cursor: pointer;
+}
+
+
+
+/* main */
+
+form{
+    font-size: 14px;
+}
+form > .row{
+    display: flex;
+    margin: 20px 0;
+}
+form > .row.actions{
+    margin-left: calc(4em + 5px);
+}
+form > .row > label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4em;
+    margin-right: 5px;
+}
+form input[type=text]{
+    padding: 3px 6px;
+    border-radius: 5px;
+    border: 1px solid #9999;
+    height: 30px;
+}
+form input[type=button],
+form input[type=subimt],
+form button{
+    height: 30px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #9999;
+    background: white;
+}
+.page > main{
+    background: #d4d4d4;
+    padding-left: 200px;
+    padding-top: 100px;
 }
