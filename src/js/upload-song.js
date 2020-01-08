@@ -7,7 +7,7 @@
         }
     }
     let model = {}
-    let controller{
+    let controller = {
         init(view, model){
             this.view = view
             this.model = model

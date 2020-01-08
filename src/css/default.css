@@ -29,6 +29,12 @@ input{font: inherit;}
 .newSong{
     text-align: center;
     padding: 10px;
+    font-size: 18px;
+    background: rgb(36,36,36);
+    color: white;
+}
+.newSong.active{
+    background: rgb(194,12,12);
 }
 .songList-container{
     flex-grow: 1;
@@ -41,6 +47,9 @@ input{font: inherit;}
     text-align: left;
     border-bottom: 1px solid #ddd;
     padding: 10px;
+}
+.songList > li.active{
+    background: rgb(194,12,12);
 }
 
 .draggable{

@@ -1,7 +1,10 @@
 {
-    let view = {
-        el: '.page > main',
-        template: `
+  let view = {
+    el: ".page > main",
+    init() {
+      this.$el = $(this.el);
+    },
+    template: `
 
         <h1>新建歌曲</h1>
         <form class="form">
@@ -9,36 +12,95 @@
                 <label>
                     歌名
                 </label>
-                <input type="text">
+                <input name="name" type="text" value="__key__">
             </div>
             <div class="row">
                 <label>
                     歌手
                 </label>
-                <input type="text">
+                <input name="singer" type="text">
             </div>
             <div class="row">
                 <label>
                     外链
                 </label>
-                <input type="text">
+                <input name="url" type="text" value="__link__">
             </div>
             <div class="row actions">
                 <button type="submit">提交</button>
             </div>
         </form>
         `,
-        render(data){
-            $(this.el).html(this.template)
-        }
+    render(data = {}) {
+      // 上面括号里的是es6新语法，如果用户没有传data或传的data是undefined，则默认执行data等于一个空对象
+      let placeholders = ["key", "link"];
+      let html = this.template;
+      placeholders.map(string => {
+        html = html.replace(`__${string}__`, data[string] || "");
+      });
+      $(this.el).html(html);
+    },
+    reset(){
+        this.render({})
     }
-    let model = {}
-    let controller = {
-        init(view, model){
-            this.view = view
-            this.model = model
-            this.view.render(this.model.data)
+  };
+  let model = {
+    data: {
+      name: "",
+      singer: "",
+      url: "",
+      id: ""
+    },
+    create(data) {
+      var Song = AV.Object.extend("Song");
+      var song = new Song();
+      song.set("name", data.name);
+      song.set("singer", data.singer);
+      song.set("url", data.url);
+      return song.save().then(
+        (newSong)=>{
+          let {id, attributes} = newSong
+          Object.assign(this.data, {        //assign会把右边的对象的属性赋给左边对象的属性
+              id,
+              ...attributes,    //等价于后面三句，表示把attribute里面的所有属性拷贝过来
+            //   上面两个等于下面四行,
+            // id: id   因为key和value相同，所有可以只写一个id，es6新语法
+            // name: attributes.name    
+            // singer: attributes.singer
+            // url: attributes.url
+          })
+        },
+        (error)=>{
+          console.log(error)
         }
+      );
     }
-    controller.init(view, model)
+  };
+  let controller = {
+    init(view, model) {
+      this.view = view;
+      this.view.init();
+      this.model = model;
+      this.view.render(this.model.data);
+      this.bindEvents();
+      window.eventHub.on("upload", data => {
+        this.view.render(data);
+      });
+    },
+    bindEvents() {
+      this.view.$el.on(".submit", form, e => {
+        e.preventDefault();
+        let needs = "name singer url".split(" ");
+        let data = {};
+        needs.map(string => {
+          data[string] = this.view.$el.find(`[name="${string}"]`).val();
+        });
+        this.model.create(data).then(()=>{
+            this.view.reset
+            window.eventHub.emit('create', this.model.data)
+        });
+      });
+    }
+  };
+  controller.init(view, model);
 }
