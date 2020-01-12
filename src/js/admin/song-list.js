@@ -3,6 +3,14 @@
         el: '.songList-container',
         template: `
         <ul class="songList">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
         </ul>
         `,
         render(data){
@@ -10,7 +18,7 @@
         $el.html(this.template)
         let {songs} = data
         let liList = songs.map((song)=>{$('<li></li>').text(song.name).attr('data-song-id', song.id)})
-        $el.find('ul').empty()
+        $el.find('ul')
         liList.map((domLi)=>{
             $el.find('ul').append(domLi)
         })
@@ -43,6 +51,7 @@
             this.model = model
             this.view.render(this.model.data)
             this.bindEvents()
+            this.bindEventHub()
             this.getAllSongs()
         },
         getAllSongs(){
@@ -54,7 +63,15 @@
             $(this.view.el).on('click', 'li', (e)=>{
                 this.view.activeItem(e.currentTarget)
                 let songId = e.currentTarget.getAttribute('data-song-id')
-            window.eventHub.emit('select', {id: songId})
+                let data
+                let songs = this.model.data.songs
+                for(let i=0; i<songs.lenght; i++){
+                    if(song[i] === songId){
+                        data = song[i]
+                        break
+                    }
+                }
+                window.eventHub.emit('select', JSON.parse(JSON.stringify(data)))
             })
             
         },

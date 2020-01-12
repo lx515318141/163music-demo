@@ -87,6 +87,10 @@
         this.model.data = data;
         this.view.render(this.model.data)
       });
+      window.eventHub.on('select', (data)=>{
+        this.model.data = data
+        this.view.render(this.model.data)
+      })
     },
     bindEvents() {
       this.view.$el.on(".submit", 'form', e => {
@@ -98,9 +102,7 @@
         });
         this.model.create(data).then(()=>{
             this.view.reset()
-            let string = JSON.stringify(this.model.data)
-            let object = JSON.parse(string)
-            window.eventHub.emit('create', object)
+            window.eventHub.emit('create', JSON.parse(JSON.stringify(this.model.data)))
         });
       });
     }
