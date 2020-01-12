@@ -6,13 +6,13 @@
     },
     template: `
 
-        <h1>新建歌曲</h1>
+        <h1>歌曲信息</h1>
         <form class="form">
             <div class="row">
                 <label>
                     歌名
                 </label>
-                <input name="name" type="text" value="__key__">
+                <input name="name" type="text" value="__name__">
             </div>
             <div class="row">
                 <label>
@@ -24,7 +24,7 @@
                 <label>
                     外链
                 </label>
-                <input name="url" type="text" value="__link__">
+                <input name="url" type="text" value="__url__">
             </div>
             <div class="row actions">
                 <button type="submit">提交</button>
@@ -33,7 +33,7 @@
         `,
     render(data = {}) {
       // 上面括号里的是es6新语法，如果用户没有传data或传的data是undefined，则默认执行data等于一个空对象
-      let placeholders = ["key", "link"];
+      let placeholders = ["name", "singer", "url", "id"];
       let html = this.template;
       placeholders.map(string => {
         html = html.replace(`__${string}__`, data[string] || "");
@@ -84,11 +84,12 @@
       this.view.render(this.model.data);
       this.bindEvents();
       window.eventHub.on("upload", data => {
-        this.view.render(data);
+        this.model.data = data;
+        this.view.render(this.model.data)
       });
     },
     bindEvents() {
-      this.view.$el.on(".submit", form, e => {
+      this.view.$el.on(".submit", 'form', e => {
         e.preventDefault();
         let needs = "name singer url".split(" ");
         let data = {};
@@ -96,8 +97,10 @@
           data[string] = this.view.$el.find(`[name="${string}"]`).val();
         });
         this.model.create(data).then(()=>{
-            this.view.reset
-            window.eventHub.emit('create', this.model.data)
+            this.view.reset()
+            let string = JSON.stringify(this.model.data)
+            let object = JSON.parse(string)
+            window.eventHub.emit('create', object)
         });
       });
     }
