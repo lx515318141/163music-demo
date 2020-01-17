@@ -5,7 +5,6 @@
       this.$el = $(this.el);
     },
     template: `
-
         <h1>歌曲信息</h1>
         <form class="form">
             <div class="row">
