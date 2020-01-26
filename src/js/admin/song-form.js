@@ -17,7 +17,7 @@
                 <label>
                     歌手
                 </label>
-                <input name="singer" type="text">
+                <input name="singer" type="text" value="__singer__">
             </div>
             <div class="row">
                 <label>
@@ -50,7 +50,8 @@
       url: "",
       id: ""
     },
-    create(data) {
+    create(data) {     //在这里做ajax将数据传到自己的数据库里
+      
       var Song = AV.Object.extend("Song");
       var song = new Song();
       song.set("name", data.name);
@@ -93,7 +94,12 @@
     },
     bindEvents() {
       this.view.$el.on(".submit", 'form', e => {
-        e.preventDefault();
+        $.ajax({
+          url: '/uptoken',
+          method: 'post',
+          data: ''
+        }).then(()=>{console.log('')})
+        e.preventDefault();   //不执行默认操作
         let needs = "name singer url".split(" ");
         let data = {};
         needs.map(string => {
