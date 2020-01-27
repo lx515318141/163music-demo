@@ -30,7 +30,7 @@ input{font: inherit;}
     justify-content: space-between;
     align-items: center;
     background:  #D43C33;
-    padding: 16px 10px;
+    padding: 14px 10px;
 }
 .topBar > .logo > svg{
     vertical-align: top;

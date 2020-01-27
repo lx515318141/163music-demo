@@ -28,7 +28,7 @@
                 $li.addClass('active').siblings('.active').removeClass('active')
         },
         clearActive(){
-            $(this.el).find('.active').removeactive('.active')
+            $(this.el).find('.active').removeactive('.active')     //找到el中带有active的元素，将其active去掉
         }
     }
     let model = {
@@ -36,13 +36,12 @@
             songs: [  ]
         },
         find(){
-            var query = new AV.Query('Song');
-            return query.find().then((songs)=>{
-                this.data.songs = songs.map((song)=>{
-                    return {id: song.id, ...song.attributes}
-                })
-                return songs
-            })
+            // return query.find().then((songs)=>{
+            //     this.data.songs = songs.map((song)=>{
+            //         return {id: song.id, ...song.attributes}
+            //     })
+            //     return songs
+            // })
         }
     }
     let controller = {
@@ -77,7 +76,7 @@
         },
         bindEventHub(){
             window.eventHub.on('upload', ()=>{
-                this.view.clearActive()
+                this.view.clearActive()          //如果发现有上事件发布，就调用clearActive函数
             })
             window.eventHub.on('create', (songData)=>{
                 this.model.data.song.push(songData)
@@ -86,5 +85,4 @@
         }
         
     }
-    controller.init(view, model)
 }

@@ -26,18 +26,11 @@
                 <input name="url" type="text" value="__url__">
             </div>
             <div class="row actions">
-                <button type="submit">提交</button>
+                <button type="submit">保存</button>
             </div>
         </form>
         `,
     render(data = {}) {
-      // 上面括号里的是es6新语法，如果用户没有传data或传的data是undefined，则默认执行data等于一个空对象
-      let placeholders = ["name", "singer", "url", "id"];
-      let html = this.template;
-      placeholders.map(string => {
-        html = html.replace(`__${string}__`, data[string] || "");
-      });
-      $(this.el).html(html);
     },
     reset(){
         this.render({})
@@ -49,31 +42,6 @@
       singer: "",
       url: "",
       id: ""
-    },
-    create(data) {     //在这里做ajax将数据传到自己的数据库里
-      
-      var Song = AV.Object.extend("Song");
-      var song = new Song();
-      song.set("name", data.name);
-      song.set("singer", data.singer);
-      song.set("url", data.url);
-      return song.save().then(
-        (newSong)=>{
-          let {id, attributes} = newSong
-          Object.assign(this.data, {        //assign会把右边的对象的属性赋给左边对象的属性
-              id,
-              ...attributes,    //等价于后面三句，表示把attribute里面的所有属性拷贝过来
-            //   上面两个等于下面四行,
-            // id: id   因为key和value相同，所有可以只写一个id，es6新语法
-            // name: attributes.name    
-            // singer: attributes.singer
-            // url: attributes.url
-          })
-        },
-        (error)=>{
-          console.log(error)
-        }
-      );
     }
   };
   let controller = {
@@ -81,8 +49,8 @@
       this.view = view;
       this.view.init();
       this.model = model;
-      this.view.render(this.model.data);
       this.bindEvents();
+      this.view.render(this.model.data);
       window.eventHub.on("upload", data => {
         this.model.data = data;
         this.view.render(this.model.data)
@@ -93,22 +61,27 @@
       })
     },
     bindEvents() {
-      this.view.$el.on(".submit", 'form', e => {
-        $.ajax({
-          url: '/uptoken',
-          method: 'post',
-          data: ''
-        }).then(()=>{console.log('')})
+      this.view.$el.on("submit", 'form', e => {
         e.preventDefault();   //不执行默认操作
-        let needs = "name singer url".split(" ");
-        let data = {};
+        let needs = "name singer url".split(" ");      //得到一个数组，这个数组包含name，singer，url
+        let data = {};     //声明一个空的data，这个data需要name，singer，url这三个值
         needs.map(string => {
-          data[string] = this.view.$el.find(`[name="${string}"]`).val();
+          data[string] = this.view.$el.find(`input[name="${string}"]`).val();
+          //遍历needs，得到字符串，找到el里面name的值和字符串一致的input，即输入框中输入的内容，将其放到data里面
         });
-        this.model.create(data).then(()=>{
-            this.view.reset()
-            window.eventHub.emit('create', JSON.parse(JSON.stringify(this.model.data)))
-        });
+        console.log(data)
+        $.ajax({
+          type: 'POST',
+          url: 'uptoken',
+          data: data,
+          heads : {
+            'content-type' : 'application/x-www-form-urlencoded'
+        }
+        })
+        // this.model.create(data).then(()=>{
+        //     this.view.reset()
+        //     window.eventHub.emit('create', JSON.parse(JSON.stringify(this.model.data)))
+        // });
       });
     }
   };

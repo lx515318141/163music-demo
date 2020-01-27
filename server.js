@@ -2,7 +2,6 @@ var http = require('http')
 var fs = require('fs')
 var url = require('url')
 var port = process.argv[2]
-var qiniu = require('qiniu')
 
 if(!port){
   console.log('请指定端口号好不啦？\nnode server.js 8888 这样不会吗？')
@@ -19,31 +18,30 @@ var server = http.createServer(function(request, response){
   var method = request.method
 
   /******** 从这里开始看，上面不要看 ************/
-
-  console.log('方方说：含查询字符串的路径\n' + pathWithQuery)
-
-  if(path==='/uptoken'){
+  if(path==='/uptoken' && method === 'POST'){
     response.statusCode = 200
-    response.setHeader('Content-Type', 'text/json;charset=utf-8')
+    response.setHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
     response.setHeader('Access-Control-Allow-Origin', '*')
-    response.removeHeader('Date')
+    var songData = data
+    fs.writeFileSync('./data-bank', songData)
+    // response.removeHeader('Date')
 
-    var config = fs.readFileSync('./qiniu-key.json')
-    config = JSON.parse(config)
+    // var config = fs.readFileSync('./qiniu-key.json')
+    // config = JSON.parse(config)
 
-    let {accessKey, secretKey} = config;
-    var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-    var options = {
-      scope: '163-music-demo-1',
-    };
-    var putPolicy = new qiniu.rs.PutPolicy(options);
-    var uploadToken=putPolicy.uploadToken(mac);
-    response.write(`
-    {
-      "uptoken": "${uploadToken}"
-    }
-    `)
-    response.end()
+    // let {accessKey, secretKey} = config;
+    // var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+    // var options = {
+    //   scope: '163-music-demo-1',
+    // };
+    // var putPolicy = new qiniu.rs.PutPolicy(options);
+    // var uploadToken=putPolicy.uploadToken(mac);
+    // response.write(`
+    // {
+    //   "uptoken": "${uploadToken}"
+    // }
+    // `)
+    // response.end()
   }else{
     response.statusCode = 404
     response.setHeader('Content-Type', 'text/html;charset=utf-8')
