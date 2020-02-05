@@ -3,24 +3,21 @@
         el: '.songList-container',
         template: `
         <ul class="songList">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-        <li>5</li>
-        <li>6</li>
-        <li>7</li>
-        <li>8</li>
+        
         </ul>
         `,
         render(data){
         let $el = $(this.el)            
         $el.html(this.template)
         let {songs} = data
-        let liList = songs.map((song)=>{$('<li></li>').text(song.name).attr('data-song-id', song.id)})
-        $el.find('ul')
+        // 声明一个对象将data传给它
+        let liList = songs.map((song)=>$('<li></li>').text(song.name))
+        // 遍历songs找到里面的song，把每一个song变成li，将song中的name中的value作为li中的内容
+        $el.find('ul').empty()
+        // 将ul清空
         liList.map((domLi)=>{
             $el.find('ul').append(domLi)
+            // 遍历liList，找到里面的domli将domli放到ul里面
         })
         },
         activeItem(li){
@@ -35,14 +32,14 @@
         data: {
             songs: [  ]
         },
-        find(){
-            // return query.find().then((songs)=>{
-            //     this.data.songs = songs.map((song)=>{
-            //         return {id: song.id, ...song.attributes}
-            //     })
-            //     return songs
-            // })
-        }
+        // find(){
+        //     // return query.find().then((songs)=>{
+        //     //     this.data.songs = songs.map((song)=>{
+        //     //         return {id: song.id, ...song.attributes}
+        //     //     })
+        //     //     return songs
+        //     // })
+        // }
     }
     let controller = {
         init(view, model){
@@ -51,7 +48,7 @@
             this.view.render(this.model.data)
             this.bindEvents()
             this.bindEventHub()
-            this.getAllSongs()
+            // this.getAllSongs()
         },
         getAllSongs(){
             this.model.find().then(()=>{
@@ -79,10 +76,13 @@
                 this.view.clearActive()          //如果发现有上事件发布，就调用clearActive函数
             })
             window.eventHub.on('create', (songData)=>{
-                this.model.data.song.push(songData)
+                this.model.data.songs.push(songData)
+                // 将song-form中提交的数据放到model的data的songs里面
                 this.view.render(this.model.data)
+                // 调用render
             })
         }
         
     }
+    controller.init(view, model);
 }

@@ -31,6 +31,12 @@
         </form>
         `,
     render(data = {}) {
+      let placeholders = ['name', 'singer', 'url']
+      let html = this.template
+      placeholders.map((string) => {
+        html = html.replace(`__${string}__`, data[string] || '')
+      })
+      $(this.el).html(html)
     },
     reset(){
         this.render({})
@@ -38,19 +44,13 @@
   };
   let model = {
     data: {
-      name: "",
-      singer: "",
-      url: "",
-      id: ""
     },
     create(data){
-      $.ajax({
+      return $.ajax({
         type: 'POST',
-        url: '/uptoken',
+        url: 'http://localhost:8888/uptoken',
         data: data,
-        heads : {
-          'content-type' : 'application/x-www-form-urlencoded'
-      }
+        heads: {'content-type' : 'application/x-www-form-urlencoded'}
       })
     }
   };
@@ -59,8 +59,8 @@
       this.view = view;
       this.view.init();
       this.model = model;
-      this.bindEvents();
       this.view.render(this.model.data);
+      this.bindEvents();
       window.eventHub.on("upload", data => {
         this.model.data = data;
         this.view.render(this.model.data)
@@ -80,7 +80,7 @@
           data[string] = this.view.$el.find(`[name="${string}"]`).val();
           //遍历needs，得到字符串，找到el里面name的值和字符串一致的value，即输入框中输入的内容，将其放到data里面
         });
-        console.log(data)       
+        this.model.data = data     
         this.model.create(data).then(()=>{
             this.view.reset()
             window.eventHub.emit('create', JSON.parse(JSON.stringify(this.model.data)))

@@ -1,6 +1,7 @@
 var http = require('http')
 var fs = require('fs')
 var url = require('url')
+var querystring = require("querystring");
 var port = process.argv[2]
 
 if(!port){
@@ -22,8 +23,23 @@ var server = http.createServer(function(request, response){
     response.statusCode = 200
     response.setHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
     response.setHeader('Access-Control-Allow-Origin', '*')
-    var songData = data
-    fs.writeFileSync('./data-bank', songData)
+    var data = ''
+    request.on('data', function(chunk){
+      data += chunk
+    })
+    // 通过req的data事件监听函数，每当接受到请求体的数据，就累加到post变量中
+    request.on('end', function(){
+      data = querystring.parse(data)
+      // 将字符串转换成对象
+      var db = fs.readFileSync('./data-bank', 'utf8',)
+      var newData = db + JSON.stringify(data)
+      fs.writeFileSync('./data-bank', newData)
+      console.log(newData)
+    })
+    // 在end事件触发后，通过querystring.parse将post解析为真正的POST请求格式，然后向客户端返回。
+    
+
+
     // response.removeHeader('Date')
 
     // var config = fs.readFileSync('./qiniu-key.json')
@@ -41,7 +57,7 @@ var server = http.createServer(function(request, response){
     //   "uptoken": "${uploadToken}"
     // }
     // `)
-    // response.end()
+    response.end()
   }else{
     response.statusCode = 404
     response.setHeader('Content-Type', 'text/html;charset=utf-8')
