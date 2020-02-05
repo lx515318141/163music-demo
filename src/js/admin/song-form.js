@@ -42,6 +42,16 @@
       singer: "",
       url: "",
       id: ""
+    },
+    create(data){
+      $.ajax({
+        type: 'POST',
+        url: '/uptoken',
+        data: data,
+        heads : {
+          'content-type' : 'application/x-www-form-urlencoded'
+      }
+      })
     }
   };
   let controller = {
@@ -63,25 +73,18 @@
     bindEvents() {
       this.view.$el.on("submit", 'form', e => {
         e.preventDefault();   //不执行默认操作
-        let needs = "name singer url".split(" ");      //得到一个数组，这个数组包含name，singer，url
+        let needs = "name singer url".split(" ");      
+        //split会将字符串分割成数组，第一个参数用了指定以什么作为间隔，“”中为空格，就是以空格为间隔，返回一个有name，singer，url的数组
         let data = {};     //声明一个空的data，这个data需要name，singer，url这三个值
         needs.map(string => {
-          data[string] = this.view.$el.find(`input[name="${string}"]`).val();
-          //遍历needs，得到字符串，找到el里面name的值和字符串一致的input，即输入框中输入的内容，将其放到data里面
+          data[string] = this.view.$el.find(`[name="${string}"]`).val();
+          //遍历needs，得到字符串，找到el里面name的值和字符串一致的value，即输入框中输入的内容，将其放到data里面
         });
-        console.log(data)
-        $.ajax({
-          type: 'POST',
-          url: 'uptoken',
-          data: data,
-          heads : {
-            'content-type' : 'application/x-www-form-urlencoded'
-        }
-        })
-        // this.model.create(data).then(()=>{
-        //     this.view.reset()
-        //     window.eventHub.emit('create', JSON.parse(JSON.stringify(this.model.data)))
-        // });
+        console.log(data)       
+        this.model.create(data).then(()=>{
+            this.view.reset()
+            window.eventHub.emit('create', JSON.parse(JSON.stringify(this.model.data)))
+        });
       });
     }
   };
