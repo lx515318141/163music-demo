@@ -32,14 +32,18 @@
         data: {
             songs: [  ]
         },
-        // find(){
-        //     // return query.find().then((songs)=>{
-        //     //     this.data.songs = songs.map((song)=>{
-        //     //         return {id: song.id, ...song.attributes}
-        //     //     })
-        //     //     return songs
-        //     // })
-        // }
+        find(){
+            return $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8888/load'
+            })
+            // return query.find().then((songs)=>{
+            //     this.data.songs = songs.map((song)=>{
+            //         return {id: song.id, ...song.attributes}
+            //     })
+            //     return songs
+            // })
+        }
     }
     let controller = {
         init(view, model){
@@ -48,11 +52,13 @@
             this.view.render(this.model.data)
             this.bindEvents()
             this.bindEventHub()
-            // this.getAllSongs()
+            this.getAllSongs()
         },
         getAllSongs(){
             this.model.find().then(()=>{
-                this.view.render(this.model.data)
+                console.log(1)
+                console.log(request.responseText)
+                this.view.render(request.responseText)
             })
         },
         bindEvents(){

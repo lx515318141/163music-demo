@@ -19,7 +19,7 @@ var server = http.createServer(function(request, response){
   var method = request.method
 
   /******** 从这里开始看，上面不要看 ************/
-  if(path==='/uptoken' && method === 'POST'){
+  if(path === '/uptoken' && method === 'POST'){
     response.statusCode = 200
     response.setHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
     response.setHeader('Access-Control-Allow-Origin', '*')
@@ -37,26 +37,13 @@ var server = http.createServer(function(request, response){
       console.log(newData)
     })
     // 在end事件触发后，通过querystring.parse将post解析为真正的POST请求格式，然后向客户端返回。
-    
-
-
-    // response.removeHeader('Date')
-
-    // var config = fs.readFileSync('./qiniu-key.json')
-    // config = JSON.parse(config)
-
-    // let {accessKey, secretKey} = config;
-    // var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-    // var options = {
-    //   scope: '163-music-demo-1',
-    // };
-    // var putPolicy = new qiniu.rs.PutPolicy(options);
-    // var uploadToken=putPolicy.uploadToken(mac);
-    // response.write(`
-    // {
-    //   "uptoken": "${uploadToken}"
-    // }
-    // `)
+    response.end()
+  }if(path === '/load'){
+    response.statusCode = 200
+    response.setHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
+    response.setHeader('Access-Control-Allow-Origin', '*')
+    var songs = fs.readFileSync('./data-bank', 'utf8')
+    response.write(songs)
     response.end()
   }else{
     response.statusCode = 404
