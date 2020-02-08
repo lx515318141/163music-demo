@@ -38,7 +38,7 @@ var server = http.createServer(function(request, response){
     })
     // 在end事件触发后，通过querystring.parse将post解析为真正的POST请求格式，然后向客户端返回。
     response.end()
-  }if(path === '/load'){
+  }else if(path === '/load'){
     response.statusCode = 200
     response.setHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
     response.setHeader('Access-Control-Allow-Origin', '*')

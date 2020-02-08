@@ -58,7 +58,8 @@
             this.model.find().then(()=>{
                 console.log(1)
                 console.log(request.responseText)
-                this.view.render(request.responseText)
+                this.model.data.songs.push(request.responseText)
+                this.view.render(this.model.data)
             })
         },
         bindEvents(){
