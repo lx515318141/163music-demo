@@ -66,6 +66,7 @@
         this.view.render(this.model.data)
       });
       window.eventHub.on('select', (data)=>{
+        console.log(data)
         this.model.data = data
         this.view.render(this.model.data)
       })
@@ -80,6 +81,7 @@
           data[string] = this.view.$el.find(`[name="${string}"]`).val();
           //遍历needs，得到字符串，找到el里面name的值和字符串一致的value，即输入框中输入的内容，将其放到data里面
         });
+        data.id = Math.random() + new Date().getTime()
         this.model.data = data     
         this.model.create(data).then(()=>{
             this.view.reset()

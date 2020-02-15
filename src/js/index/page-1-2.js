@@ -35,6 +35,7 @@
     find(){
       return $.ajax({
         type: 'GET',
+        dataType: "jsonp",
         url: 'http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.billboard.billList&type=1&size=10&offset=0'
       })
     }
@@ -44,8 +45,10 @@
       this.view = view;
       this.view.init();
       this.model = model;
-      this.model.find().then(() => {
+      this.model.find().then((data) => {
         console.log(1)
+        console.log(data)
+        console.log(request.responseText)
         this.model.data.songs.push(request.responseText)
         this.view.render(this.model.data);
       });

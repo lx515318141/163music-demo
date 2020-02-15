@@ -32,7 +32,12 @@ var server = http.createServer(function(request, response){
       data = querystring.parse(data)
       // 将字符串转换成对象
       var db = fs.readFileSync('./data-bank', 'utf8',)
-      var newData = db + JSON.stringify(data)
+      var newData
+      if(db === ''){
+        newData = db + JSON.stringify(data)
+      }else{
+        newData = db + ";" + JSON.stringify(data)
+      }
       fs.writeFileSync('./data-bank', newData)
       console.log(newData)
     })

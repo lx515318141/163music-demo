@@ -11,8 +11,8 @@
         $el.html(this.template)
         let {songs} = data
         // 声明一个对象将data传给它
-        let liList = songs.map((song)=>$('<li></li>').text(song.name))
-        // 遍历songs找到里面的song，把每一个song变成li，将song中的name中的value作为li中的内容
+        let liList = songs.map((song)=>$('<li></li>').text(song.name).attr('data-song-id',song.id))
+        // 遍历songs找到里面的song，把每一个song变成li，将song中的name中的value作为li中的内容,并给每个li加上歌曲的ID
         $el.find('ul').empty()
         // 将ul清空
         liList.map((domLi)=>{
@@ -24,9 +24,9 @@
             let $li = $(li)
                 $li.addClass('active').siblings('.active').removeClass('active')
         },
-        clearActive(){
-            $(this.el).find('.active').removeactive('.active')     //找到el中带有active的元素，将其active去掉
-        }
+        // clearActive(){
+        //     $(this.el).find('.active').removeactive('.active')     //找到el中带有active的元素，将其active去掉
+        // }
     }
     let model = {
         data: {
@@ -34,8 +34,9 @@
         },
         find(){
             return $.ajax({
-                type: 'GET',
-                url: 'http://localhost:8888/load'
+                url: 'http://localhost:8888/load',
+                type: 'get',
+                // dataType: 'json'
             })
             // return query.find().then((songs)=>{
             //     this.data.songs = songs.map((song)=>{
@@ -55,10 +56,11 @@
             this.getAllSongs()
         },
         getAllSongs(){
-            this.model.find().then(()=>{
-                console.log(1)
-                console.log(request.responseText)
-                this.model.data.songs.push(request.responseText)
+            this.model.find().then((data)=>{
+                let t = data.split(";")
+                for(let i=0; i < t.length; i++){
+                    this.model.data.songs[i] = JSON.parse(t[i])
+                }
                 this.view.render(this.model.data)
             })
         },
@@ -68,9 +70,9 @@
                 let songId = e.currentTarget.getAttribute('data-song-id')
                 let data
                 let songs = this.model.data.songs
-                for(let i=0; i<songs.lenght; i++){
-                    if(song[i] === songId){
-                        data = song[i]
+                for(let i=0; i<songs.length; i++){
+                    if(songs[i].id === songId){
+                        data = songs[i]
                         break
                     }
                 }
@@ -79,9 +81,9 @@
             
         },
         bindEventHub(){
-            window.eventHub.on('upload', ()=>{
-                this.view.clearActive()          //如果发现有上事件发布，就调用clearActive函数
-            })
+            // window.eventHub.on('upload', ()=>{
+            //     this.view.clearActive()          //如果发现有上事件发布，就调用clearActive函数
+            // })
             window.eventHub.on('create', (songData)=>{
                 this.model.data.songs.push(songData)
                 // 将song-form中提交的数据放到model的data的songs里面
