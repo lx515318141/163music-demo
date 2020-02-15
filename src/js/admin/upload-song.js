@@ -11,6 +11,10 @@
         init(view, model){
             this.view = view
             this.model = model
+            $(this.view.el).on('click',this.active.bind(this))
+        },
+        active(){
+            window.eventHub.emit('newSong')
             
         }
     }

@@ -24,9 +24,9 @@
             let $li = $(li)
                 $li.addClass('active').siblings('.active').removeClass('active')
         },
-        // clearActive(){
-        //     $(this.el).find('.active').removeactive('.active')     //找到el中带有active的元素，将其active去掉
-        // }
+        clearActive(){
+            $(this.el).find('.active').removeClass('active')     //找到el中带有active的元素，将其active去掉
+        }
     }
     let model = {
         data: {
@@ -81,9 +81,9 @@
             
         },
         bindEventHub(){
-            // window.eventHub.on('upload', ()=>{
-            //     this.view.clearActive()          //如果发现有上事件发布，就调用clearActive函数
-            // })
+            window.eventHub.on('newSong',()=>{
+                this.view.clearActive()          //如果发现有上事件发布，就调用clearActive函数
+            })
             window.eventHub.on('create', (songData)=>{
                 this.model.data.songs.push(songData)
                 // 将song-form中提交的数据放到model的data的songs里面
