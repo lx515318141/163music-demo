@@ -36,14 +36,15 @@
             return $.ajax({
                 url: 'http://localhost:8888/load',
                 type: 'get',
-                // dataType: 'json'
             })
-            // return query.find().then((songs)=>{
-            //     this.data.songs = songs.map((song)=>{
-            //         return {id: song.id, ...song.attributes}
-            //     })
-            //     return songs
-            // })
+        },
+        change(data){
+            return $.ajax({
+                url: 'http://localhost:8888/change',
+                type: 'get',
+                data: data,
+                heads: { "content-type": "application/x-www-form-urlencoded" }
+            })
         }
     }
     let controller = {
@@ -89,6 +90,20 @@
                 // 将song-form中提交的数据放到model的data的songs里面
                 this.view.render(this.model.data)
                 // 调用render
+            })
+            window.eventHub.on('modify',(changeData)=>{
+                console.log(changeData)
+                let songs = this.model.data.songs
+                console.log(songs)
+                for(let i=0; i<songs.length; i++){
+                    if(songs[i].id === changeData.id){
+                        songs[i] = changeData
+                        break
+                    }
+                } 
+                console.log(this.model.data.songs)
+                this.view.render(this.model.data)
+                this.model.change(this.model.data)
             })
         }
         

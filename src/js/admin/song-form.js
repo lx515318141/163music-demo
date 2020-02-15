@@ -30,32 +30,31 @@
         </form>
         `,
     render(data = {}) {
-      let placeholders = ['name', 'singer', 'url']
-      let html = this.template
-      placeholders.map((string) => {
-        html = html.replace(`__${string}__`, data[string] || '')
-      })
-      $(this.el).html(html)
-      if(data.id){
-        $(this.el).prepend('<h1>编辑歌曲</h1>')
-      }else{
-        $(this.el).prepend('<h1>新建歌曲</h1>')
+      let placeholders = ["name", "singer", "url"];
+      let html = this.template;
+      placeholders.map(string => {
+        html = html.replace(`__${string}__`, data[string] || "");
+      });
+      $(this.el).html(html);
+      if (data.id) {
+        $(this.el).prepend("<h1>编辑歌曲</h1>");
+      } else {
+        $(this.el).prepend("<h1>新建歌曲</h1>");
       }
     },
-    reset(){
-        this.render({})
+    reset() {
+      this.render({});
     }
   };
   let model = {
-    data: {
-    },
-    create(data){
+    data: {},
+    create(data) {
       return $.ajax({
-        type: 'POST',
-        url: 'http://localhost:8888/uptoken',
+        type: "POST",
+        url: "http://localhost:8888/uptoken",
         data: data,
-        heads: {'content-type' : 'application/x-www-form-urlencoded'}
-      })
+        heads: { "content-type": "application/x-www-form-urlencoded" }
+      });
     }
   };
   let controller = {
@@ -67,35 +66,61 @@
       this.bindEvents();
       window.eventHub.on("upload", data => {
         this.model.data = data;
-        this.view.render(this.model.data)
+        this.view.render(this.model.data);
       });
-      window.eventHub.on('select', (data)=>{
-        this.model.data = data
-        this.view.render(this.model.data)
+      window.eventHub.on("select", data => {
+        this.model.data = data;
+        this.view.render(this.model.data);
       });
-      window.eventHub.on('newSong',()=>{
-        this.model.data = {
-          name:'',singer:'',url:'',id:''
+      window.eventHub.on("newSong", () => {
+        if (this.model.data.id) {
+          this.model.data = {
+            name: "",
+            singer: "",
+            url: "",
+            id: ""
+          };
+          this.view.render(this.model.data);
         }
-        this.view.render(this.model.data)
-      })
+      });
+    },
+    add() {
+      let needs = "name singer url".split(" ");
+      //split会将字符串分割成数组，第一个参数用了指定以什么作为间隔，“”中为空格，就是以空格为间隔，返回一个有name，singer，url的数组
+      let data = {}; //声明一个空的data，这个data需要name，singer，url这三个值
+      needs.map(string => {
+        data[string] = this.view.$el.find(`[name="${string}"]`).val();
+        //遍历needs，得到字符串，找到el里面name的值和字符串一致的value，即输入框中输入的内容，将其放到data里面
+      });
+      data.id = Math.random() + new Date().getTime() + '';
+      this.model.data = data;
+      this.model.create(data).then(() => {
+        this.view.reset();
+        window.eventHub.emit(
+          "create",
+          JSON.parse(JSON.stringify(this.model.data))
+        );
+      });
+    },
+    modify() {
+      let needs = "name singer url".split(" ");
+      //split会将字符串分割成数组，第一个参数用了指定以什么作为间隔，“”中为空格，就是以空格为间隔，返回一个有name，singer，url的数组
+      let data = {}; //声明一个空的data，这个data需要name，singer，url这三个值
+      needs.map(string => {
+        data[string] = this.view.$el.find(`[name="${string}"]`).val();
+        //遍历needs，得到字符串，找到el里面name的值和字符串一致的value，即输入框中输入的内容，将其放到data里面
+      });
+      data.id = this.model.data.id;
+      window.eventHub.emit('modify',data)
     },
     bindEvents() {
-      this.view.$el.on("submit", 'form', e => {
-        e.preventDefault();   //不执行默认操作
-        let needs = "name singer url".split(" ");      
-        //split会将字符串分割成数组，第一个参数用了指定以什么作为间隔，“”中为空格，就是以空格为间隔，返回一个有name，singer，url的数组
-        let data = {};     //声明一个空的data，这个data需要name，singer，url这三个值
-        needs.map(string => {
-          data[string] = this.view.$el.find(`[name="${string}"]`).val();
-          //遍历needs，得到字符串，找到el里面name的值和字符串一致的value，即输入框中输入的内容，将其放到data里面
-        });
-        data.id = Math.random() + new Date().getTime()
-        this.model.data = data     
-        this.model.create(data).then(()=>{
-            this.view.reset()
-            window.eventHub.emit('create', JSON.parse(JSON.stringify(this.model.data)))
-        });
+      this.view.$el.on("submit", "form", e => {
+        e.preventDefault(); //不执行默认操作
+        if (this.model.data.id) {
+          this.modify();
+        } else {
+          this.add();
+        }
       });
     }
   };
