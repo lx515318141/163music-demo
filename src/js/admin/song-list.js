@@ -41,7 +41,7 @@
         change(data){
             return $.ajax({
                 url: 'http://localhost:8888/change',
-                type: 'get',
+                type: 'POST',
                 data: data,
                 heads: { "content-type": "application/x-www-form-urlencoded" }
             })
@@ -92,7 +92,6 @@
                 // 调用render
             })
             window.eventHub.on('modify',(changeData)=>{
-                console.log(changeData)
                 let songs = this.model.data.songs
                 console.log(songs)
                 for(let i=0; i<songs.length; i++){
@@ -101,9 +100,12 @@
                         break
                     }
                 } 
-                console.log(this.model.data.songs)
+                this.model.data.songs = songs
+                console.log(songs)
                 this.view.render(this.model.data)
-                this.model.change(this.model.data)
+                this.model.change(this.model.data).then(()=>{
+                    alert('修改成功')
+                })
             })
         }
         

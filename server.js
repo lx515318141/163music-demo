@@ -50,21 +50,31 @@ var server = http.createServer(function(request, response){
     var songs = fs.readFileSync('./data-bank', 'utf8')
     response.write(songs)
     response.end()
-  }else if(path === '/change'){
+  }else if(path === '/change' && method === 'POST'){
     response.statusCode = 200
     response.setHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
     response.setHeader('Access-Control-Allow-Origin', '*')
-    var data
+    var Data = ''
     request.on('data', function(chunk){
-      data += chunk
+      Data += chunk
     })
     // 通过req的data事件监听函数，每当接受到请求体的数据，就累加到post变量中
     request.on('end', function(){
-      data = querystring.parse(data)
+      Data = querystring.parse(Data)
       // 将字符串转换成对象
       // var db = fs.readFileSync('./data-bank', 'utf8',)
-      var newData = JSON.stringify(data)
-      fs.writeFileSync('./data-bank', newData)
+      console.log(Data)
+      for(let i=0; i<Data.length; i++){
+        if(i === 0){
+          var changeData = JSON.stringify(Data[i])
+          fs.writeFileSync('./data-bank', changeData)
+        }else{
+          var t = fs.readFileSync('./data-bank', 'utf8',)
+          changeData = t + ";" + JSON.stringify(Data[i])
+          fs.writeFileSync('./data-bank', changeData)
+        }
+      }
+      
     })
     response.end()
   }else{

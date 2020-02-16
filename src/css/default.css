@@ -12,14 +12,20 @@ input{font: inherit;}
 .page{
     display: flex;
     height: 100%;
+    flex-direction: column;
 }
-.page > aside {
+.page  > .master{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+.master > aside {
     width: 250px;
     display: flex;
     flex-direction: column;
     border-top: 1px solid rgb(0,0,0);
 }
-.page > main {
+.page > .master > main {
     flex-grow: 1;  
 }
 
@@ -48,10 +54,7 @@ input{font: inherit;}
     color: white;
     font-family: Regular;
 }
-.newSong.active{
-    background: rgb(194,12,12);
-}
-.songList-container{
+ .songList-container{
     flex-grow: 1;
 }
 .songList{
@@ -85,6 +88,7 @@ input{font: inherit;}
 
 
 /* main */
+
 form{
     font-size: 14px;
     display: flex;
@@ -123,7 +127,7 @@ form button{
     border: 1px solid #9999;
     background: white;
 }
-.page > main{
+.page > .master > main{
     display: flex;
     justify-content: center;
     align-items: center;

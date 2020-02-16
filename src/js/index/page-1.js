@@ -32,12 +32,14 @@
         },
         loadModule1(){
             let script1 = document.createElement('script')
-            script1.src = './js/index/page-1-1.js'    //这里的路径因为是添加到HTML里，所有要以HTML所在位置为准
+            script1.src = './js/index/page-1-1.js'   
+            //这里的路径因为是添加到HTML里，所有要以HTML所在位置为准
             script1.onload = function(){
                 console.log('模块1加载成功')
             }
             document.body.appendChild(script1)
         },
+        // 模块1和模块2加载完成的顺序是不一定的，在网络出现波动的情况下模块2可能会比模块1先加载完成
         loadModule2(){
             let script2 = document.createElement('script')
             script2.src = './js/index/page-1-2.js'

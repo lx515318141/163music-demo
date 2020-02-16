@@ -1,6 +1,6 @@
 {
   let view = {
-    el: ".page > main",
+    el: ".master > main",
     init() {
       this.$el = $(this.el);
     },
@@ -92,14 +92,15 @@
         data[string] = this.view.$el.find(`[name="${string}"]`).val();
         //遍历needs，得到字符串，找到el里面name的值和字符串一致的value，即输入框中输入的内容，将其放到data里面
       });
+      this.model.data = JSON.parse(JSON.stringify(data));
       data.id = Math.random() + new Date().getTime() + '';
-      this.model.data = data;
       this.model.create(data).then(() => {
         this.view.reset();
         window.eventHub.emit(
           "create",
-          JSON.parse(JSON.stringify(this.model.data))
+          JSON.parse(JSON.stringify(data))
         );
+        console.log(this.model.data)
       });
     },
     modify() {
