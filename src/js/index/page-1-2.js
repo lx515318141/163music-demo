@@ -5,25 +5,29 @@
       this.$el = $(this.el);
     },
     render(data) {
-        let songs = data
+        // 传过来的data是一个对象，对象里面是一个数组
+        let {songs} = data
+        // 将数组赋给songs，songs就是这个数组
         songs.map((song)=>{
+        // 遍历songs，把里面的每一个song都生成一个li
             let $li = $(`
                 <li>
-                    <h3>${song.name}</h3>
+                    <h3>${song.title}</h3>
                     <p>
                         <svg class="icon icon-sq" aria-hidden="true">
                             <use xlink:href="#icon-sq"></use>
                         </svg>
-                        ${song.singer}
+                        ${song.author}
                     </p>
                     <a class="playButton" href="#">
-                        <svg class="icon icon-bofang" aria-hidden="true">
+                        <svg class="icon icon-Playbutton" aria-hidden="true">
                             <use xlink:href="#icon-bofang"></use>
                         </svg>
                     </a>
                 </li>
             `)
-            this.$el.find(ol.list).append($li)
+            this.$el.find('ol.list').append($li)
+            // 再把生成的li放到class为list的ol里面
         })
         
     }
@@ -46,10 +50,7 @@
       this.view.init();
       this.model = model;
       this.model.find().then((data) => {
-        console.log(1)
-        console.log(data)
-        console.log(request.responseText)
-        this.model.data.songs.push(request.responseText)
+        this.model.data.songs = data.song_list
         this.view.render(this.model.data);
       });
     }
