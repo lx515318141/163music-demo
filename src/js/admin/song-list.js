@@ -58,10 +58,7 @@
         },
         getAllSongs(){
             this.model.find().then((data)=>{
-                let t = data.split(";")
-                for(let i=0; i < t.length; i++){
-                    this.model.data.songs[i] = JSON.parse(t[i])
-                }
+                this.model.data.songs = JSON.parse(data)
                 this.view.render(this.model.data)
             })
         },
@@ -103,7 +100,7 @@
                 this.model.data.songs = songs
                 console.log(songs)
                 this.view.render(this.model.data)
-                this.model.change(this.model.data).then(()=>{
+                this.model.change(changeData).then(()=>{
                     alert('修改成功')
                 })
             })

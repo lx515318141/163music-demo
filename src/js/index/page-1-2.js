@@ -14,14 +14,14 @@
                 <li>
                     <h3>${song.title}</h3>
                     <p>
-                        <svg class="icon icon-sq" aria-hidden="true">
+                        <svg class="icon icon-sq1" aria-hidden="true">
                             <use xlink:href="#icon-sq"></use>
                         </svg>
                         ${song.author}
                     </p>
                     <a class="playButton" href="#">
-                        <svg class="icon icon-Playbutton" aria-hidden="true">
-                            <use xlink:href="#icon-bofang"></use>
+                        <svg class="icon icon-play1" aria-hidden="true">
+                            <use xlink:href="#icon-play1"></use>
                         </svg>
                     </a>
                 </li>

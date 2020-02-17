@@ -31,15 +31,13 @@ var server = http.createServer(function(request, response){
     request.on('end', function(){
       data = querystring.parse(data)
       // 将字符串转换成对象
-      var db = fs.readFileSync('./data-bank', 'utf8',)
-      var newData
-      if(db === ''){
-        newData = db + JSON.stringify(data)
-      }else{
-        newData = db + ";" + JSON.stringify(data)
-      }
-      fs.writeFileSync('./data-bank', newData)
-      console.log(newData)
+      let db = JSON.parse(fs.readFileSync('./data-bank', 'utf8',)) 
+      // 文件中写入的都是字符串。所以要先将字符串转换成对象再进行操作
+      db.push(data)
+      // push方法会返回修改后该数组的新长度
+      db = JSON.stringify(db)
+      // 再将完成操作的对象转换回字符串，存到数据库中
+      fs.writeFileSync('./data-bank', db)
     })
     // 在end事件触发后，通过querystring.parse将post解析为真正的POST请求格式，然后向客户端返回。
     response.end()
@@ -62,19 +60,16 @@ var server = http.createServer(function(request, response){
     request.on('end', function(){
       Data = querystring.parse(Data)
       // 将字符串转换成对象
-      // var db = fs.readFileSync('./data-bank', 'utf8',)
       console.log(Data)
-      for(let i=0; i<Data.length; i++){
-        if(i === 0){
-          var changeData = JSON.stringify(Data[i])
-          fs.writeFileSync('./data-bank', changeData)
-        }else{
-          var t = fs.readFileSync('./data-bank', 'utf8',)
-          changeData = t + ";" + JSON.stringify(Data[i])
-          fs.writeFileSync('./data-bank', changeData)
+      db = JSON.parse(fs.readFileSync('./data-bank', 'utf8',))
+      console.log(db)
+      for(let i=0; i<db.length; i++){
+        if(db[i].id === Data.id){
+          db[i] = Data
         }
       }
-      
+      db = JSON.stringify(db)
+      fs.writeFileSync('./data-bank', db)
     })
     response.end()
   }else{
