@@ -145,17 +145,17 @@ section.playList  > ol.songs > li p{
 section.songs > .list {
     margin-top: 18px;
   }
-section.songs > ol.list > li > h3{
+section.songs > ol.list > li > a > h3{
     font-size: 17px;
     color: #333;
     line-height: 25px;
 }
-section.songs > ol.list > li > p{
+section.songs > ol.list > li > a > p{
     font-size: 12px;
     color: #888;
     line-height: 18px;
 }
-section.songs > ol.list > li > p > svg{
+section.songs > ol.list > li > a > p > svg{
     height: 14px;
     width: 18px;
     color: rgb(254, 112, 59);

@@ -100,7 +100,7 @@
           "create",
           JSON.parse(JSON.stringify(data))
         );
-        console.log(this.model.data)
+        alert('保存成功')
       });
     },
     modify() {
