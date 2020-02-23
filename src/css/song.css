@@ -1,0 +1,153 @@
+*{margin: 0; padding: 0; box-sizing: border-box;}
+*::before, *::after{box-sizing: border-box;}
+
+/* 动画，0%时0度，100%时360度 */
+@keyframes circle{
+    0%{transform: rotate(0deg);}
+    100%{transform: rotate(360deg);}
+}
+
+.page{
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    position: relative;
+}
+.page .logo > svg{
+    position: absolute;
+    top: 8px;
+    left: 9px;
+    display: flex;
+    height: 7vw;
+    width: 25vw;
+}
+.page::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,0.8);
+    z-index: -1;
+}
+.page > .background{
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background: transparent url(http://p4.music.126.net/QN8HfkqZAGmQWAI0vxbLSA==/109951164725549482.jpg)
+                center center no-repeat;
+    /* 当背景需要引用图片时，url前需加上transparent，transparent表示背景颜色 */
+    /* center 表示居中，no-repeat 表示不重复 */
+    filter: blur(15px);
+    background-size: cover;
+    z-index: -2;
+}
+.disc-container{
+    position: relative;
+}
+.disc-container .icon-wrapper{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15.5vw;
+    background: rgba(0,0,0,0.3);
+}
+.disc-container .icon {width: 10vw; fill: white;}
+.disc-container .pointer{
+    position: absolute;
+    width: 25.7vw;
+    left: 46.5vw;
+}
+.disc-container .disc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 18vw;
+}
+.disc-container .ring{
+    width: 79vw;
+}
+.disc-container .light{
+    width: 79vw;
+    position: absolute;
+    animation: circle 20s infinite linear;
+    animation-play-state: paused;
+}
+.disc-container .cover{
+    width: 49.5vw;
+    position: absolute;
+    border-radius: 50%;
+    animation: circle 20s infinite linear;
+    /* 将class为cover的div与上面的circle动画效果绑定起来，动画时间20s，infinite无线循环，linear线性播放，即两次动画之间线性过渡 */
+    animation-play-state: paused;
+    /* 此属性规定动画是正在运行还是暂停 */
+}
+.disc-container.playing .cover，.disc-container.playing .light{
+    animation-play-state: running;
+}
+.disc-container .icon-pause{
+    display: none;
+}
+.disc-container.playing .icon-pause{
+    display: block;
+}
+.disc-container.playing .icon-play{
+    display: none; 
+}
+
+
+.song-description{
+    flex-grow: 1;
+    color: #AEABAC;
+    text-align: center;
+    line-height: 2;
+    margin-top: 20px;
+}
+.song-description h1{
+    color: #FEFEFE;
+    font: 18px/1.5 Helvetica,sans-serif,STHeiTi;
+}
+.song-description p{
+    font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
+}
+.song-description .lines{
+    transition: transform 0.3s;
+    /* transition过渡，让css的属性平滑的改变 */
+    /* transform转换，让元素的外观改变 */
+}
+.song-description .lyric{
+    height: 72px;
+    overflow: hidden;
+    margin-top: 14px;
+}
+.song-description p-active{
+    color: #FEFEFE;
+}
+
+.page > .links{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #D43B32;
+}
+.page > .links > a{
+    border: 1px solid #FF3A3A;
+    border-radius: 10.5vw;
+    color: inherit;
+    text-decoration: none;
+    width: 46vw;
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 1vw;
+    margin: 2.6vw 1.3vw;
+    line-height: 7vw;
+    padding: 1.7vw 1.5vw;
+}
+.page > .links > a.main{
+    background: #FF3A3A;
+    color: #FEFEFE;
+}

@@ -1,22 +1,19 @@
 {
   let view = {
-    el: "#app",
+    el: "#play",
     init() {
       this.$el = $(this.el);
     },
-    template: `
-    <audio controls src={{url}}></audio>
-    <div>
-        <button class="play">播放</button>
-        <button class="pause">暂停</button>
-    </div>
-    `,
+    
     render(data) {
-      console.log(data.file_link);
-      this.$el.html(this.template.replace("{{url}}", data.file_link));
+      console.log(data.songinfo.pic_huge);
+      $(this.el).find('.background').css('background-image', `url(${data.songinfo.pic_huge})`)
+      this.$el.find('img.cover').attr('src', data.songinfo.pic_huge)
+      this.$el.find('audio').attr('src',data.bitrate.file_link);
     },
     play(){
         let audio = this.$el.find('audio')[0]
+        console.log(1)
         audio.play()
     },
     pause(){
@@ -28,8 +25,8 @@
     data: {},
     get(id) {
       let url =
-        "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.song.play&songid=" +
-        id;
+        "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.song.play&songid="
+         + id;
       function getData(url) {
         return $.ajax({
           type: "GET",
@@ -38,10 +35,6 @@
         });
       }
       return getData(url).then(data => {
-        // this.data.name = data.songinfo.title;
-        // this.data.singer = data.songinfo.author;
-        // this.data.id = data.songinfo.song_id;
-        // this.data.url = data.bitrate.file_link;
         Object.assign(this.data, data);
         return this.data;
       });
@@ -54,15 +47,17 @@
       this.view.init();
       let id = this.getId();
       this.model.get(id).then(data => {
-        this.view.render(data.bitrate);
+        console.log(data)
+        this.view.render(data);
+        // this.view.play()
       });
-      this.bindEvents()
+      // this.bindEvents()
     },
     bindEvents(){
-        this.view.$el.on('click', '.play', ()=>{
+        this.view.$el.on('click', '.disc-container', ()=>{
             this.view.play()
         })
-        this.view.$el.on('click', '.pause', ()=>{
+        this.view.$el.on('click', '.disc-container', ()=>{
             this.view.pause()
         })
     },
