@@ -4,29 +4,63 @@
     init() {
       this.$el = $(this.el);
     },
-    
     render(data) {
-      console.log(data.songinfo.pic_huge);
-      $(this.el).find('.background').css('background-image', `url(${data.songinfo.pic_huge})`)
-      this.$el.find('img.cover').attr('src', data.songinfo.pic_huge)
-      this.$el.find('audio').attr('src',data.bitrate.file_link);
+      this.$el
+        .find(".background")
+        .css("background-image", `url(${data.song.songinfo.pic_huge})`);
+      this.$el.find("img.cover").attr("src", data.song.songinfo.pic_huge);
+      if (this.$el.find("audio").attr("src") !== data.song.bitrate.file_link) {
+        let audio = this.$el
+          .find("audio")
+          .attr("src", data.song.bitrate.file_link)
+          .get(0);
+        audio.onended = () => {
+          window.eventHub.emit("songEnd");
+        };
+      }
+      if (data.status === "playing") {
+        this.$el.find(".disc-container").addClass("playing");
+        this.play();
+      } else {
+        this.$el.find(".disc-container").removeClass("playing");
+        this.pause();
+      }
+      this.$el
+        .find(".song-description>h1>.song_name")
+        .text(data.song.songinfo.title);
+      this.$el.find(".song-description>h1>b").text(data.song.songinfo.author);
+      let {lrcContent} = data.song.lyrics
+      console.log(lrcContent)
+      lrcContent.split('\n').map((string) => {
+        let p = document.createElement('p')
+        let regex = /\[([\d:.]+)\](.+)/
+        // 声明一个正则表达式
+        let matches = string.match(regex)
+        // 将lrcContent里的string用正则表达式进行分组，若不符合正则表达式则不会进行分组
+        // 将string的内容放在matches的第一项，[]里的放在第二项，[]外的放在第三项
+        if(matches){
+          p.textContent = matches[2]
+          p.setAttribute('data-time', matches[1])
+        }
+        this.$el.find('.lyric>.lines').append(p)
+      })
     },
-    play(){
-        let audio = this.$el.find('audio')[0]
-        console.log(1)
-        audio.play()
+    play() {
+      this.$el.find("audio")[0].play();
     },
-    pause(){
-        let audio = this.$el.find('audio')[0]
-        audio.pause()
+    pause() {
+      this.$el.find("audio")[0].pause();
     }
   };
   let model = {
-    data: {},
+    data: {
+      song: {},
+      status: "playing"
+    },
     get(id) {
       let url =
-        "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.song.play&songid="
-         + id;
+        "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.song.play&songid=" +
+        id;
       function getData(url) {
         return $.ajax({
           type: "GET",
@@ -35,9 +69,25 @@
         });
       }
       return getData(url).then(data => {
-        Object.assign(this.data, data);
+        Object.assign(this.data.song, data);
         return this.data;
       });
+    },
+    getSongLrc(id) {
+      let url =
+        "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.song.lry&songid=" +
+        id;
+      function getLrc(url) {
+        return $.ajax({
+          type: "GET",
+          dataType: "jsonp",
+          url: url
+        });
+      }
+      return getLrc(url).then((data) => {
+        this.data.song.lyrics = data
+        return this.data
+      })
     }
   };
   let controller = {
@@ -47,19 +97,31 @@
       this.view.init();
       let id = this.getId();
       this.model.get(id).then(data => {
-        console.log(data)
         this.view.render(data);
-        // this.view.play()
+        this.view.play();
       });
-      // this.bindEvents()
+      this.model.getSongLrc(id).then(data => {
+        this.view.render(data);
+      })
+      this.bindEvents();
     },
-    bindEvents(){
-        this.view.$el.on('click', '.disc-container', ()=>{
-            this.view.play()
-        })
-        this.view.$el.on('click', '.disc-container', ()=>{
-            this.view.pause()
-        })
+    bindEvents() {
+      this.view.$el.on("click", ".disc-container", () => {
+        if (this.model.data.status === "paused") {
+          this.model.data.status = "playing";
+          this.view.render(this.model.data);
+          console.log(this.model.data.status);
+        } else {
+          this.model.data.status = "paused";
+          this.view.render(this.model.data);
+          console.log(this.model.data.status);
+        }
+      });
+      window.eventHub.on("songEnd", () => {
+        this.model.data.status = "paused";
+        this.view.render(this.model.data);
+        console.log(this.model.data.status);
+      });
     },
     getId() {
       let search = window.location.search;

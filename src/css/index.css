@@ -132,12 +132,12 @@ section.playList  > ol.songs > li img{
     width: 100%;
 }
 section.playList  > ol.songs > li p{
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
     padding: 0 6px;
     line-height: 18px;
     height: 36px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     overflow: hidden;
 }
 

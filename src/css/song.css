@@ -37,7 +37,7 @@
     left: 0;
     height: 100vh;
     width: 100%;
-    background: transparent url(http://p4.music.126.net/QN8HfkqZAGmQWAI0vxbLSA==/109951164725549482.jpg)
+    background: transparent url()
                 center center no-repeat;
     /* 当背景需要引用图片时，url前需加上transparent，transparent表示背景颜色 */
     /* center 表示居中，no-repeat 表示不重复 */
@@ -54,9 +54,18 @@
     justify-content: center;
     align-items: center;
     width: 15.5vw;
-    background: rgba(0,0,0,0.3);
+    height: 15.5vw;
 }
-.disc-container .icon {width: 10vw; fill: white;}
+.disc-container .icon {
+    width: 14.4vw; 
+    height: 14.4vw;
+    fill: white;
+    border: 0.1px solid white;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(0,0,0,0.3);
+    padding: 6px;
+}
 .disc-container .pointer{
     position: absolute;
     width: 25.7vw;
@@ -86,14 +95,15 @@
     animation-play-state: paused;
     /* 此属性规定动画是正在运行还是暂停 */
 }
-.disc-container.playing .cover，.disc-container.playing .light{
+.disc-container.playing .light,
+.disc-container.playing .cover{
     animation-play-state: running;
 }
-.disc-container .icon-pause{
-    display: none;
-}
-.disc-container.playing .icon-pause{
+.disc-container .icon-play1{
     display: block;
+}
+.disc-container.playing .icon-play1{
+    display: none;
 }
 .disc-container.playing .icon-play{
     display: none; 
@@ -108,8 +118,31 @@
     margin-top: 20px;
 }
 .song-description h1{
+    font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
+    white-space: nowrap;
+    /* 段落中文本不进行换行 */
+    text-overflow: ellipsis;
+    /* 当文字溢出时现实的样式 */
+    overflow: hidden;
+    font-weight: 400;
+    width: 82vw;
+    margin: 0 9vw;
+}
+.song-description h1 > span{
+    /* display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden; */
     color: #FEFEFE;
     font: 18px/1.5 Helvetica,sans-serif,STHeiTi;
+}
+.song-description h1 > b{
+    /* display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden; */
+    /* color: #FEFEFE; */
+    font: 17px/1.5 Helvetica,sans-serif,STHeiTi;
 }
 .song-description p{
     font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
