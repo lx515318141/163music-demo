@@ -145,7 +145,7 @@
     font: 17px/1.5 Helvetica,sans-serif,STHeiTi;
 }
 .song-description p{
-    font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
+    font: 17px/1.5 Helvetica,sans-serif,STHeiTi;
 }
 .song-description .lines{
     transition: transform 0.3s;
@@ -157,7 +157,7 @@
     overflow: hidden;
     margin-top: 14px;
 }
-.song-description p-active{
+.song-description p.active{
     color: #FEFEFE;
 }
 
