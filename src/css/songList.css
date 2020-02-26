@@ -1,0 +1,28 @@
+*{margin: 0; padding: 0; box-sizing: border-box;}
+*::before, *::after{box-sizing: border-box;}
+
+
+.page{
+    position: relative;
+}
+.background{
+    background: transparent url() center center no-repeat;
+    background-size: cover;
+    filter: blur(15px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 62.6vw;
+    z-index: -1;
+}
+
+.page > .summary > .header{
+    height: 50vw;
+    padding: 30px 10px 30px 15px;
+    display: flex;
+}
+.page > .summary > .header > .header_pic > img{
+    /* display: flex; */
+    height: 100%;
+}

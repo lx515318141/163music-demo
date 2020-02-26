@@ -35,6 +35,7 @@
         .text(data.song.songinfo.title);
       this.$el.find(".song-description>h1>b").text(data.song.songinfo.author);
       let { lrcContent } = data.song.lyrics;
+      console.log(lrcContent)
       lrcContent.split("\n").map(string => {
         let p = document.createElement("p");
         let regex = /\[([\d:.]+)\](.+)/;
@@ -49,6 +50,7 @@
           p.setAttribute("data-time", time);
           // console.log('歌词')
           // console.log(typeof this.$el.find(".lyric>.lines").html())
+          // console.log(this.$el.find(".lyric>.lines").html())
           this.$el.find(".lyric>.lines").append(p);
         }
       });
