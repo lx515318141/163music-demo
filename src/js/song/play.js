@@ -51,7 +51,12 @@
           // console.log('歌词')
           // console.log(typeof this.$el.find(".lyric>.lines").html())
           // console.log(this.$el.find(".lyric>.lines").html())
-          this.$el.find(".lyric>.lines").append(p);
+          if(this.$el.find(".lyric>.lines").html()){
+            console.log('1')
+          }else{
+            this.$el.find(".lyric>.lines").append(p);
+          }
+          // this.$el.find(".lyric>.lines").append(p);
         }
       });
     },

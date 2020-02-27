@@ -11,17 +11,17 @@
             this.view = view
             this.view.init()
             this.model = model
-            this.bindEvent()
+            // this.bindEvent()
         },
         bindEvent(){
-            this.view.$el.on('click', 'a', (e)=>{
-                console.log(e.currentTarget.innerText)
-                window.eventHub.emit('getTitle', e.currentTarget.innerText)
-            })
-            window.eventHub.on('getTitle', (title)=>{
-                console.log('title')
-                console.log(title)
-            })
+            // this.view.$el.on('click', 'a', (e)=>{
+            //     console.log(e.currentTarget.innerText)
+            //     window.eventHub.emit('getTitle', e.currentTarget.innerText)
+            // })
+            // window.eventHub.on('getTitle', (title)=>{
+            //     console.log('title')
+            //     console.log(title)
+            // })
         },
     }
     controller.init(view, model)

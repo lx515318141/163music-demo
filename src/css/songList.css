@@ -1,6 +1,15 @@
 *{margin: 0; padding: 0; box-sizing: border-box;}
 *::before, *::after{box-sizing: border-box;}
+ol,ul{list-style: none;}
+h1,h2,h3,h4,h5,h6{font-weight: normal;}
+a{color: inherit; text-decoration: none;}
 
+.icon {
+    width: 22px; height: 22px;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
 
 .page{
     position: relative;
@@ -25,4 +34,92 @@
 .page > .summary > .header > .header_pic > img{
     /* display: flex; */
     height: 100%;
+}
+.page > .summary > .header > .header_content{
+    margin-left: 16px;
+    color: #fefefe;
+
+}
+.page > .summary > .header h2{
+    padding-top: 1px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    text-overflow: ellipsis;
+    font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
+    font-size: 17px;
+    overflow: hidden;
+
+}
+.page > .summary > .header a{
+    color: #D0C9C7;
+    font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
+    margin-top: 20px;
+    display: block;
+    overflow: hidden;
+    line-height: 30px;
+}
+.page > .summary > .header .avatar{
+    display: flex;
+}
+.page > .summary > .header .title img{
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+}
+
+
+
+.songList{
+    background: #f8f8f8;
+}
+.songList h2{
+    background: #EEEFF0;
+    color: #666;
+    font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
+    font-size: 12px;
+    line-height: 23px;
+    padding-left: 10px;
+}
+ol li{
+    line-height: 56px;
+}
+ol a{
+    display: flex;
+    flex-direction: row;
+}
+ol a > .number{
+    display: flex;
+    font-size: 17px;
+    width: 40px;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+}
+ol a > .song{
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #F3F3F4;
+    flex-grow: 1;
+    position: relative;
+    padding: 6px 0;
+}
+
+.songList > ol > li h3{
+    line-height: 25px;
+    font-size: 17px;
+    overflow: hidden;
+    color: #333;
+}
+.songList > ol > li p{
+    font-size: 12px;
+    line-height: 18px;
+    color: #888;
+
+}
+.songList > ol > li .playButton{
+    position: absolute;
+    top: 3px;
+    right: 12px;
 }

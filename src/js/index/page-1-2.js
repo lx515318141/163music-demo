@@ -24,9 +24,6 @@
     render(data) {
       // 传过来的data是一个对象，对象里面是一个数组
       let { songs } = data;
-      console.log('1')
-      console.log(data)
-      console.log(songs)
       // 将数组赋给songs，songs就是这个数组
       songs.map(song => {
         // 遍历songs，把里面的每一个song都生成一个li
@@ -61,7 +58,6 @@
       this.model = model;
       this.model.find().then(data => {
         this.model.data.songs = data.song_list;
-        console.log(this.model.data)
         this.view.render(this.model.data);
       });
     }
