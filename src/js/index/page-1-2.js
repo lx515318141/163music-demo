@@ -10,7 +10,7 @@
           <h3>{{song.title}}</h3>
           <p>
             <svg class="icon icon-sq1" aria-hidden="true">
-              <use xlink:href="#icon-sq"></use>
+              <use xlink:href="#icon-sq2"></use>
             </svg>
             {{song.author}}
           </p>

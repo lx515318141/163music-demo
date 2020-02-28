@@ -32,7 +32,6 @@ a{color: inherit; text-decoration: none;}
     display: flex;
 }
 .page > .summary > .header > .header_pic > img{
-    /* display: flex; */
     height: 100%;
 }
 .page > .summary > .header > .header_content{
@@ -99,27 +98,35 @@ ol a > .number{
 }
 ol a > .song{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     border-bottom: 1px solid #F3F3F4;
     flex-grow: 1;
-    position: relative;
-    padding: 6px 0;
+    font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
 }
-
+ol a .info{
+    padding: 6px 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    width: 0;
+}
 .songList > ol > li h3{
-    line-height: 25px;
+    line-height: 1.5;
     font-size: 17px;
     overflow: hidden;
     color: #333;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .songList > ol > li p{
     font-size: 12px;
-    line-height: 18px;
     color: #888;
-
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .songList > ol > li .playButton{
-    position: absolute;
-    top: 3px;
-    right: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
 }

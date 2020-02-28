@@ -70,7 +70,7 @@ section.topBar > a{
 /* tabs-nav */
 .tabs-nav{
     display: flex;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid #EEEEEE;
 }
 .tabs-nav > li{
     display: flex;
@@ -84,6 +84,7 @@ section.topBar > a{
     padding: 10px 5px;
     position: relative;
     font-size: 15px;
+    color: #333;
 }
 .tabs-nav > li.active{
     color: #D43C33;
@@ -150,6 +151,8 @@ section.songs > ol.list > li > a > h3{
     font-size: 17px;
     color: #333;
     line-height: 25px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 section.songs > ol.list > li > a > p{
     font-size: 12px;
@@ -159,7 +162,7 @@ section.songs > ol.list > li > a > p{
 section.songs > ol.list > li > a > p > svg{
     height: 14px;
     width: 18px;
-    color: rgb(254, 112, 59);
+    fill: #FE672E;
     margin-right: -2px;
 }
 section.songs > .list > li{
@@ -181,7 +184,7 @@ section.songs > .list > li{
     vertical-align: middle;
     fill: #AAA;
   }
-  section.songs > .list .icon-sq{
+  section.songs > .list .icon-sq1{
     fill: #FE672E;
   }
 
@@ -263,9 +266,133 @@ section.art > .copyright{
     font-size: 12px;
     display: flex;
     margin-top: 10px;
-    left: -10px;
 }
 .page-2 .hot_header  p{
     display: inline-block;
+}
+.page-2 > .hotList li{
+    line-height: 56px;
+}
+.page-2 > .hotList li > a{
+    display: flex;
+    flex-direction: row;
+}
+.page-2 > .hotList li .number{
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    color: #888;
+}
+.page-2 > .hotList li .song{
+    display: flex;
+    border-bottom: 1px solid #F3F3F4;
+    flex-direction: row;
+    flex-grow: 1;
+    font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
+}
+.page-2 > .hotList li .info{
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    padding: 6px 0;
+    width: 0;
+}
+.page-2 > .hotList li h3{
+    overflow: hidden;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #333;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     
+}
+.page-2 > .hotList li p{
+    font-size: 12px;
+    color: #888;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.page-2 > .hotList li .playButton{
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+}
+.page-2 > .hotList li .icon-sq1{
+    height: 14px;
+    width: 18px;
+    color: rgb(254, 112, 59);
+    margin-right: -2px;
+}
+
+
+
+/* page3-2 */
+.page-3{
+    background: #fcfcfd;
+    position: absolute;
+    width: 100%;
+    top: 0;
+}
+.page-3 .search{
+    padding: 15px 10px;
+    border-bottom: 1px solid #F3F3F4;
+}
+.page-3 .search > div{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    position: relative;
+    font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
+}
+.page-3 .left{
+    background: #EBECEC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 27px 0 0 27px;
+}
+
+.page-3 .left > svg{
+    width: 13px;
+    height: 13px;
+    margin: 0 8px;
+}
+.page-3 .right{
+    background: #EBECEC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 27px 27px 0;
+}
+.page-3 .right > svg{
+    width: 18px;
+    height: 18px;
+    margin: 0 8px;
+    z-index: -1;
+}
+.page-3 .right > svg.active{
+    z-index: 1;
+}
+.page-3 input{
+    border: none;
+    outline: none;
+    background: #EBECEC;
+    height: 30px;
+    font-size: 14px;
+    color: #333;
+    line-height: 18px;
+    width: 100%;
+}
+.page-3 label{
+    position: absolute;
+    color: #c9c9c9;
+    left: 30px;
+    top: 5px;
+    pointer-events: none;
+}
+.page-3 label.active{
+    z-index: -1;
 }

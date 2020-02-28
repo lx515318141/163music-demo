@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>李响云音乐</title>
     <link rel="stylesheet" href="./css/index.css">
-    <script src="//at.alicdn.com/t/font_1610670_3qy8w2ydppf.js"></script>
+    <script src="//at.alicdn.com/t/font_1610670_u68clwehux8.js"></script>
 </head>
 
 <body>
@@ -235,7 +235,7 @@
                     <div class="header_wrapper">
                         <div class="title"></div>
                         <div class="update">
-                        更新日期：<p></p>
+                            更新日期：<p></p>
                         </div>
                     </div>
                 </div>
@@ -246,10 +246,33 @@
                 </div>
             </li>
             <li class="page-3">
-                <input id="search" type="text" style="background: #EBECEC;">
+                <div class="search_wrapper">
+                    <form class="search" action="#">
+                        <div>
+                            <div class="left">
+                                <svg class="icon icon-search" aria-hidden="true">
+                                    <use xlink:href="#icon-cx"></use>
+                                </svg>
+                            </div>
+                            <input id="search" type="text">
+                            <label class="label">搜索歌曲、歌手、专辑</label>
+                            <div class="right">
+                                <svg class="icon icon-cha" aria-hidden="true">
+                                    <use xlink:href="#icon-cha"></use>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                    </form>
+
+
+                </div>
+
                 <ol id="searchResult"></ol>
-            </li>
-        </ol>
+    </div>
+
+    </li>
+    </ol>
     </div>
     <script src="../vendors/jquery.min.js"></script>
     <script src="./js/admin/event-hub.js"></script>

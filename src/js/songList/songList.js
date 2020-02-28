@@ -9,10 +9,12 @@
             <a href="./song.html?{{song.id}}">
                 <div class="number">{{song.number}}</div>
                 <div class="song">
-                  <h3>{{song.name}}</h3>
-                  <p>
-                      {{song.singer}}
-                  </p>
+                  <div class="info">
+                    <h3>{{song.title}}</h3>
+                      <p>
+                        {{song.author}}
+                      </p>
+                  </div>
                   <div class="playButton">
                       <svg class="icon icon-play1" aria-hidden="true">
                           <use xlink:href="#icon-play1"></use>
@@ -28,8 +30,8 @@
       songs.map(song => {
         let $li = $(
           this.template
-            .replace("{{song.name}}", song.title)
-            .replace("{{song.singer}}", song.author)
+            .replace("{{song.title}}", song.title)
+            .replace("{{song.author}}", song.author)
             .replace("{{song.id}}", song.song_id)
             .replace("{{song.number}}", song.rank)
         );

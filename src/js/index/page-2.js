@@ -9,13 +9,15 @@
     <a href="./song.html?{{song.id}}">
         <div class="number">{{song.number}}</div>
         <div class="song">
-          <h3>{{song.title}}</h3>
-          <p>
-            <svg class="icon icon-sq1" aria-hidden="true">
-              <use xlink:href="#icon-sq"></use>
-            </svg>
-            {{song.author}}
-          </p>
+          <div class="info">
+            <h3>{{song.title}}</h3>
+            <p>
+              <svg class="icon icon-sq1" aria-hidden="true">
+                <use xlink:href="#icon-sq"></use>
+              </svg>
+              {{song.author}}
+            </p>
+          </div>
           <div class="playButton">
               <svg class="icon icon-play1" aria-hidden="true">
                   <use xlink:href="#icon-play1"></use>
