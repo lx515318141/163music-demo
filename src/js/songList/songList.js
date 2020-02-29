@@ -26,7 +26,6 @@
     `,
     render(data) {
       let { songs } = data;
-      console.log(data);
       songs.map(song => {
         let $li = $(
           this.template
