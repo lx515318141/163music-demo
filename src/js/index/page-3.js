@@ -6,7 +6,7 @@
     },
     template: `
         <li>
-          <a href="./song.html?{{song.id}}">
+          <a href="./play.html?{{song.id}}">
             <div class="song">
                 <div class="info">
                     <h3>{{song.title}}</h3>

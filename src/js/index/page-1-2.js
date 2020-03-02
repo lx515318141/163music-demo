@@ -6,7 +6,7 @@
     },
     template: ` 
         <li>
-          <a href="./song.html?{{song.id}}">
+          <a href="./play.html?{{song.id}}">
           <div class="info">
             <h3>{{song.title}}</h3>
             <p>
@@ -60,7 +60,9 @@
       this.model = model;
       this.model.find().then(data => {
         this.model.data.songs = data.song_list;
+        this.view.$el.find(".square-spin").addClass('active')
         this.view.render(this.model.data);
+
       });
     }
   };

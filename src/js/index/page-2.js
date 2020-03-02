@@ -6,7 +6,7 @@
     },
     tempalte: `
     <li>
-    <a href="./song.html?{{song.id}}">
+    <a href="./play.html?{{song.id}}">
         <div class="number">{{song.number}}</div>
         <div class="song">
           <div class="info">
@@ -81,6 +81,7 @@
       window.eventHub.on("selectTab", tabName => {
         if (tabName === "page-2") {
           this.model.find().then(data => {
+            this.view.$el.find(".square-spin").addClass('active')
             this.view.render(data);
           });
           this.view.show();

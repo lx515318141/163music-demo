@@ -34,56 +34,38 @@
         .find(".song-description>h1>.song_name")
         .text(data.song.songinfo.title);
       this.$el.find(".song-description>h1>b").text(data.song.songinfo.author);
-      let { lrcContent } = data.song.lyrics;
-      console.log(lrcContent)
-      lrcContent.split("\n").map(string => {
-        let p = document.createElement("p");
-        let regex = /\[([\d:.]+)\](.+)/;
-        // 声明一个正则表达式
-        let matches = string.match(regex);
-        // 将lrcContent里的string用正则表达式进行分组，若不符合正则表达式则不会进行分组
-        // 将string的内容放在matches的第一项，[]里的放在第二项，[]外的放在第三项
-        if (matches) {
-          p.textContent = matches[2];
-          let parts = matches[1].split(":");
-          let time = parseInt(parts[0], 10) * 60 + parseFloat(parts[1], 10);
-          p.setAttribute("data-time", time);
-          // console.log('歌词')
-          // console.log(typeof this.$el.find(".lyric>.lines").html())
-          // console.log(this.$el.find(".lyric>.lines").html())
-          if(this.$el.find(".lyric>.lines").html()){
-            console.log('1')
-          }else{
-            this.$el.find(".lyric>.lines").append(p);
-          }
-          // this.$el.find(".lyric>.lines").append(p);
-        }
-      });
     },
     showLyric(time) {
       let allP = this.$el.find(".lyric>.lines>p");
-      let p
+      let p;
+      if(!allP){
       for (let i = 0; i < allP.length; i++) {
-        if(i === allP.length-1){
-          p = allP[i]
-          break
-        }else{
+        if (i === allP.length - 1) {
+          p = allP[i];
+          break;
+        } else {
           let currentTime = allP.eq(i).attr("data-time");
           // jQuery的eq（）方法，eq选择器选取带有指定 index 值的元素,index值从0开始，
           let nextTime = allP.eq(i + 1).attr("data-time");
           if (currentTime <= time && time < nextTime) {
-            p = allP[i]
-            break
-          }  
+            p = allP[i];
+            break;
+          }
         }
-        }
-        let pHeight = p.getBoundingClientRect().top
-        let linesHeight = this.$el.find('.lyric>.lines')[0].getBoundingClientRect().top
-        let height = pHeight - linesHeight
-        this.$el.find('.lyric>.lines').css({
-          transform: `translateY(${-(height - 25)}px)`
-        })
-        $(p).addClass('active').siblings('.active').removeClass('active')
+      }
+      let pHeight = p.getBoundingClientRect().top;
+      let linesHeight = this.$el
+        .find(".lyric>.lines")[0]
+        .getBoundingClientRect().top;
+      let height = pHeight - linesHeight;
+      this.$el.find(".lyric>.lines").css({
+        transform: `translateY(${-(height - 25)}px)`
+      });
+      $(p)
+        .addClass("active")
+        .siblings(".active")
+        .removeClass("active");
+      }
     },
     play() {
       this.$el.find("audio")[0].play();
@@ -126,7 +108,8 @@
       }
       return getLrc(url).then(data => {
         this.data.song.lyrics = data;
-        return this.data;
+
+        return data;
       });
     }
   };
@@ -141,7 +124,23 @@
         this.view.play();
       });
       this.model.getSongLrc(id).then(data => {
-        this.view.render(data);
+        let { lrcContent } = data;
+        console.log(lrcContent);
+        lrcContent.split("\n").map(string => {
+          let p = document.createElement("p");
+          let regex = /\[([\d:.]+)\](.+)/;
+          // 声明一个正则表达式
+          let matches = string.match(regex);
+          // 将lrcContent里的string用正则表达式进行分组，若不符合正则表达式则不会进行分组
+          // 将string的内容放在matches的第一项，[]里的放在第二项，[]外的放在第三项
+          if (matches) {
+            p.textContent = matches[2];
+            let parts = matches[1].split(":");
+            let time = parseInt(parts[0], 10) * 60 + parseFloat(parts[1], 10);
+            p.setAttribute("data-time", time);
+            this.view.$el.find(".lyric>.lines").append(p);
+          }
+        });
       });
       this.bindEvents();
     },
@@ -150,22 +149,18 @@
         if (this.model.data.status === "paused") {
           this.model.data.status = "playing";
           this.view.render(this.model.data);
-          console.log(this.model.data.status);
         } else {
           this.model.data.status = "paused";
           this.view.render(this.model.data);
-          console.log(this.model.data.status);
         }
       });
       window.eventHub.on("songEnd", () => {
         this.model.data.status = "paused";
         this.view.render(this.model.data);
-        console.log(this.model.data.status);
       });
     },
     getId() {
       let search = window.location.search;
-      console.log(search);
       // 获取查询参数
       let id = "";
       if (search.indexOf("?") === 0) {
@@ -173,7 +168,6 @@
         id = search.substring(1);
         // sunstring提取字符串中介于两个指定下标之间的字符，一个参数时提取参数位置之后的字符
       }
-
       return id;
     }
   };
