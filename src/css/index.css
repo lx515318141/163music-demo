@@ -276,6 +276,7 @@ section.art > .copyright{
     font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
     font-size: 12px;
     margin-top: 10px;
+    width: 100%;
 }
 .page-2 .hot_header  p{
     display: inline-block;
@@ -387,7 +388,7 @@ section.art > .copyright{
     z-index: -1;
 }
 .page-3 .right > svg.active{
-    z-index: 1;
+    z-index: 0;
 }
 .page-3 input{
     border: none;
@@ -399,15 +400,10 @@ section.art > .copyright{
     line-height: 18px;
     width: 100%;
 }
-.page-3 label{
-    position: absolute;
+.page-3 input::placeholder{
     color: #c9c9c9;
     left: 30px;
     top: 5px;
-    pointer-events: none;
-}
-.page-3 label.active{
-    z-index: -1;
 }
 .page-3 > ol a{
     margin-left: 10px;

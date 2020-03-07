@@ -19,7 +19,16 @@
     border: 1px solid #DD6B64;
     display: inline-block;
     margin: auto;
-    animation: myHeight 0.3s infinite linear;
+    animation: myHeight 0.5s infinite linear;
+}
+.page-1 > section.songs > ol .wrapper .rect1{
+    animation-delay: -0.2s;
+}
+.page-1 > section.songs > ol .wrapper .rect2{
+    animation-delay: -0.4s;
+}
+.page-1 > section.songs > ol .wrapper .rect4{
+    animation-delay: -0.1s;
 }
 .page-1 > section.songs .square-spin.active{
     display: none;
@@ -42,7 +51,16 @@
     border: 1px solid #DD6B64;
     display: inline-block;
     margin: auto;
-    animation: myHeight 0.3s infinite linear;
+    animation: myHeight 0.5s infinite linear;
+}
+.page-2 ol .wrapper .rect1{
+    animation-delay: -0.2s;
+}
+.page-2 ol .wrapper .rect2{
+    animation-delay: -0.4s;
+}
+.page-2 ol .wrapper .rect4{
+    animation-delay: -0.1s;
 }
 .page-2 ol > .square-spin.active{
     display: none;

@@ -5,6 +5,7 @@
       this.$el = $(this.el);
     },
     render(data) {
+      document.title = data.song.songinfo.title
       this.$el
         .find(".background")
         .css("background-image", `url(${data.song.songinfo.pic_huge})`);

@@ -28,7 +28,7 @@
     `,
     render(data) {
       let { songs } = data;
-      console.log(songs)
+      console.log(songs);
       songs.map(song => {
         let $li = $(
           this.template
@@ -46,15 +46,16 @@
       this.$el.removeClass("active");
     },
     addClass() {
-      this.$el.find(".label").addClass("active");
       this.$el.find(".right>svg").addClass("active");
     },
     clearClass() {
-      this.$el.find(".label").removeClass("active");
       this.$el.find(".right>svg").removeClass("active");
     },
-    clearContent(){
-        this.$el.find('input').val("")
+    clearContent() {
+      this.$el.find("input").val("");
+    },
+    clearList() {
+      this.$el.find("li").remove();
     }
   };
   let model = {
@@ -73,8 +74,10 @@
         });
       }
       return getsongs(url).then(data => {
-        console.log(data);
-        Object.assign(this.data.songs, data.song);
+        console.log(data.song);
+        // Object.assign(this.data.songs, data.song);
+        this.data.songs = data.song
+        console.log(this.data.songs)
         return this.data;
       });
     }
@@ -105,13 +108,20 @@
       this.view.$el.on("submit", "form", e => {
         let content = this.view.$el.find("input").val();
         this.model.find(content).then(data => {
-          this.view.render(data);
+          console.log("0");
+          if (this.view.$el.find("ol").html()) {
+            this.view.clearList();
+            this.view.render(data)
+          } else {
+            this.view.render(data);
+          }
         });
       });
-      this.view.$el.on("click", "div.right", (e)=>{
-          this.view.clearContent()
-          this.view.clearClass();
-      })
+      this.view.$el.on("click", "div.right", e => {
+        this.view.clearContent();
+        this.view.clearClass();
+        this.view.clearList();
+      });
     }
   };
   controller.init(view, model);

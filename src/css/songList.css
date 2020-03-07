@@ -27,14 +27,19 @@ a{color: inherit; text-decoration: none;}
 }
 
 .page > .summary > .header{
-    height: 50vw;
     padding: 30px 10px 30px 15px;
     display: flex;
 }
-.page > .summary > .header > .header_pic > img{
+.page > .summary > .header > div{
+    display: flex;
+}
+.page > .summary > .header .header_pic{
+    height: 128px;
+}
+.page > .summary > .header .header_pic > img{
     height: 100%;
 }
-.page > .summary > .header > .header_content{
+.page > .summary > .header .header_content{
     margin-left: 16px;
     color: #fefefe;
 
@@ -67,9 +72,20 @@ a{color: inherit; text-decoration: none;}
     width: 30px;
     margin-right: 5px;
 }
+.page > .summary > .introduction{
+    background: #F8F8F8;
+    padding: 10px 10px 10px 15px;
+    font: 14px/1.5 Helvetica,sans-serif,STHeiTi;
+    color: #666;
+}
+.page > .summary > .introduction span{
+    font-size: 12px;
+    border: 1px solid rgba(0,0,0,.1);
+    padding: 1px 8px;
+    border-radius: 12px;
+}
 
-
-
+/* songList */
 .songList{
     background: #f8f8f8;
 }

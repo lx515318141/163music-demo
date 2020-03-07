@@ -25,6 +25,7 @@
         </li>
     `,
     render(data) {
+      document.title = data.title
       let { songs } = data;
       songs.map(song => {
         let $li = $(
@@ -41,22 +42,22 @@
         .find(".background")
         .css("background-image", `url(./img/${data.id}.jpg)`);
       this.$el
-        .find(".summary>.header>.header_pic>img")
+        .find(".summary .header_pic>img")
         .attr("src", `./img/${data.id}.jpg`);
-      this.$el
-        .find(".summary>.header>.header_content>.title>h2")
-        .html(data.title);
+      this.$el.find(".summary h2").html(data.title);
+      this.$el.find(".label>span").html(data.label);
     }
   };
   let model = {
     data: {
       songs: []
     },
-    getList(id) {
+    getList(id, title) {
       let url =
         "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.billboard.billList&type=" +
         id +
         "&size=30&offset=0";
+      this.data.title = title;
       function getdata(url) {
         return $.ajax({
           url: url,
@@ -68,7 +69,7 @@
         console.log(data);
         Object.assign(this.data.songs, data.song_list);
         this.data.id = data.billboard.billboard_type;
-        this.data.title = data.billboard.name;
+        this.data.label = data.billboard.name;
         return this.data;
       });
     }
@@ -79,23 +80,27 @@
       this.model = model;
       this.view.init();
       this.getId();
-      let id = this.getId();
-      this.model.getList(id).then(data => {
+      let id = this.getId().id;
+      let title = this.getId().title;
+      this.model.getList(id, title).then(data => {
         this.view.render(data);
       });
     },
     getId() {
       let search = window.location.search;
-      console.log(search);
       // 获取查询参数
-      let id = "";
-      if (search.indexOf("?") === 0) {
-        //  indexOf可返回指定字符在字符串中首次出现的位置
-        id = search.substring(1);
-        //  substring可输入一个或两个参数，一个参数时可提取参数位置之后的字符串，两个参数时可提取介于两个参数之间的字符串
-      }
+      console.log(search);
+      let serachArray = search.split("&");
+      let info = {};
+      info.id = serachArray[0].split("=")[1];
+      info.title = decodeURIComponent(serachArray[1].split("=")[1]);
+      // if (search.indexOf("?") === 0) {
+      //   //  indexOf可返回指定字符在字符串中首次出现的位置
+      //   id = search.substring(1);
+      //   //  substring可输入一个或两个参数，一个参数时可提取参数位置之后的字符串，两个参数时可提取介于两个参数之间的字符串
+      // }
 
-      return id;
+      return info;
     }
   };
   controller.init(view, model);
