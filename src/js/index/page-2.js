@@ -62,7 +62,6 @@
         });
       }
       return getHotSong().then(data => {
-        console.log(data);
         Object.assign(this.data.songs, data.song_list);
         this.data.update = data.billboard.update_date;
         return this.data;

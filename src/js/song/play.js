@@ -126,7 +126,6 @@
       });
       this.model.getSongLrc(id).then(data => {
         let { lrcContent } = data;
-        console.log(lrcContent);
         lrcContent.split("\n").map(string => {
           let p = document.createElement("p");
           let regex = /\[([\d:.]+)\](.+)/;

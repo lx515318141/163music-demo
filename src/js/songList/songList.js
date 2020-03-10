@@ -35,7 +35,6 @@
             .replace("{{song.id}}", song.song_id)
             .replace("{{song.number}}", song.rank)
         );
-        console.log("1");
         this.$el.find("#song-list>#list").append($li);
       });
       this.$el
@@ -66,7 +65,6 @@
         });
       }
       return getdata(url).then(data => {
-        console.log(data);
         Object.assign(this.data.songs, data.song_list);
         this.data.id = data.billboard.billboard_type;
         this.data.label = data.billboard.name;
@@ -89,7 +87,6 @@
     getId() {
       let search = window.location.search;
       // 获取查询参数
-      console.log(search);
       let serachArray = search.split("&");
       let info = {};
       info.id = serachArray[0].split("=")[1];

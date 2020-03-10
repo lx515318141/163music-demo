@@ -28,7 +28,6 @@
     `,
     render(data) {
       let { songs } = data;
-      console.log(songs);
       songs.map(song => {
         let $li = $(
           this.template
@@ -74,10 +73,8 @@
         });
       }
       return getsongs(url).then(data => {
-        console.log(data.song);
         // Object.assign(this.data.songs, data.song);
         this.data.songs = data.song
-        console.log(this.data.songs)
         return this.data;
       });
     }
@@ -108,7 +105,6 @@
       this.view.$el.on("submit", "form", e => {
         let content = this.view.$el.find("input").val();
         this.model.find(content).then(data => {
-          console.log("0");
           if (this.view.$el.find("ol").html()) {
             this.view.clearList();
             this.view.render(data)

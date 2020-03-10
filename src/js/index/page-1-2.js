@@ -45,12 +45,36 @@
       songs: []
     },
     find() {
-      return $.ajax({
-        type: "GET",
-        dataType: "jsonp",
-        url:
-          "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.billboard.billList&type=1&size=10&offset=0"
-      });
+      // return $.ajax({
+      //   type: "GET",
+      //   dataType: "jsonp",
+      //   url:
+      //     "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.billboard.billList&type=1&size=10&offset=0"
+      // }).then((data)=>{
+      //   this.data.songs = data.song_list;
+      // })
+      // let _self = this
+      // function fn(data){
+      //   console.log(data)
+      //   console.log(_self.model)
+      //   _self.model.data.songs = data.song_list;
+      //   console.log(_self.model.data.songs)
+
+      // }
+      // commom.find(fn(data), (err)=>{
+      //   alert('x')
+      // })
+      commom.find(
+        data => {
+          console.log(data);
+          console.log(this.data);
+          this.data.songs = data.song_list;
+          console.log(this.data.songs);
+        },
+        err => {
+          alert("x");
+        }
+      );
     }
   };
   let controller = {
@@ -58,11 +82,9 @@
       this.view = view;
       this.view.init();
       this.model = model;
-      this.model.find().then(data => {
-        this.model.data.songs = data.song_list;
-        this.view.$el.find(".square-spin").addClass('active')
+      this.model.find().then(() => {
+        this.view.$el.find(".square-spin").addClass("active");
         this.view.render(this.model.data);
-
       });
     }
   };

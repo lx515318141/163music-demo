@@ -90,7 +90,6 @@
             })
             window.eventHub.on('modify',(changeData)=>{
                 let songs = this.model.data.songs
-                console.log(songs)
                 for(let i=0; i<songs.length; i++){
                     if(songs[i].id === changeData.id){
                         songs[i] = changeData
@@ -98,7 +97,6 @@
                     }
                 } 
                 this.model.data.songs = songs
-                console.log(songs)
                 this.view.render(this.model.data)
                 this.model.change(changeData).then(()=>{
                     alert('修改成功')
