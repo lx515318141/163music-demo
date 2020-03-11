@@ -44,7 +44,7 @@
     data: {
       songs: []
     },
-    find() {
+    find(suc, err) {
       // return $.ajax({
       //   type: "GET",
       //   dataType: "jsonp",
@@ -53,28 +53,30 @@
       // }).then((data)=>{
       //   this.data.songs = data.song_list;
       // })
+
       // let _self = this
       // function fn(data){
       //   console.log(data)
       //   console.log(_self.model)
       //   _self.model.data.songs = data.song_list;
       //   console.log(_self.model.data.songs)
-
       // }
       // commom.find(fn(data), (err)=>{
       //   alert('x')
       // })
+      // return this.data.songs
+
       commom.find(
         data => {
-          console.log(data);
-          console.log(this.data);
           this.data.songs = data.song_list;
-          console.log(this.data.songs);
+          suc(this.data.songs)
         },
         err => {
           alert("x");
+          err(err)
         }
       );
+      
     }
   };
   let controller = {
@@ -82,10 +84,18 @@
       this.view = view;
       this.view.init();
       this.model = model;
-      this.model.find().then(() => {
+      this.model.find((data)=>{
         this.view.$el.find(".square-spin").addClass("active");
+        console.log(this.model.data)
+        console.log(data)
         this.view.render(this.model.data);
-      });
+      },(err)=>{
+        alert(err)
+      })
+      // .then(() => {
+      //   this.view.$el.find(".square-spin").addClass("active");
+      //   this.view.render(this.model.data);
+      // });
     }
   };
   controller.init(view, model);

@@ -53,15 +53,12 @@
       songs: []
     },
     find() {
-      function getHotSong() {
         return $.ajax({
           url:
             "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.billboard.billList&type=2&size=20&offset=0",
           type: "get",
           dataType: "jsonp"
-        });
-      }
-      return getHotSong().then(data => {
+        }).then(data => {
         Object.assign(this.data.songs, data.song_list);
         this.data.update = data.billboard.update_date;
         return this.data;

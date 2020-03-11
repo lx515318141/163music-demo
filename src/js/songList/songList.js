@@ -57,14 +57,11 @@
         id +
         "&size=30&offset=0";
       this.data.title = title;
-      function getdata(url) {
         return $.ajax({
           url: url,
           type: "GET",
           dataType: "jsonp"
-        });
-      }
-      return getdata(url).then(data => {
+        }).then(data => {
         Object.assign(this.data.songs, data.song_list);
         this.data.id = data.billboard.billboard_type;
         this.data.label = data.billboard.name;

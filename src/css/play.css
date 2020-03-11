@@ -163,9 +163,11 @@
 
 .page > .links{
     display: flex;
+    bottom: 10px;
     justify-content: center;
     align-items: center;
     color: #D43B32;
+    position: absolute;
 }
 .page > .links > a{
     border: 1px solid #FF3A3A;
@@ -176,9 +178,9 @@
     font-size: 18px;
     text-align: center;
     letter-spacing: 1vw;
-    margin: 2.6vw 1.3vw;
-    line-height: 7vw;
-    padding: 1.7vw 1.5vw;
+    margin: 0 2vw;
+    line-height: 40px;
+    padding: 0 1.5vw;
 }
 .page > .links > a.main{
     background: #FF3A3A;

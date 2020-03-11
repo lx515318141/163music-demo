@@ -21,7 +21,7 @@
           window.eventHub.emit("songEnd");
         };
         audio.ontimeupdate = () => {
-          this.showLyric(audio.currentTime);
+          this.scrollLyric(audio.currentTime);
         };
       }
       if (data.status === "playing") {
@@ -36,10 +36,28 @@
         .text(data.song.songinfo.title);
       this.$el.find(".song-description>h1>b").text(data.song.songinfo.author);
     },
-    showLyric(time) {
+    pushLyric(data){
+      let { lrcContent } = data;
+        lrcContent.split("\n").map(string => {
+          let p = document.createElement("p");
+          let regex = /\[([\d:.]+)\](.+)/;
+          // 声明一个正则表达式
+          let matches = string.match(regex);
+          // 将lrcContent里的string用正则表达式进行分组，若不符合正则表达式则不会进行分组
+          // 将string的内容放在matches的第一项，[]里的放在第二项，[]外的放在第三项
+          if (matches) {
+            p.textContent = matches[2];
+            let parts = matches[1].split(":");
+            let time = parseInt(parts[0], 10) * 60 + parseFloat(parts[1], 10);
+            p.setAttribute("data-time", time);
+            this.$el.find(".lyric>.lines").append(p);
+          }
+        });
+    },
+    scrollLyric(time) {
       let allP = this.$el.find(".lyric>.lines>p");
       let p;
-      if(!allP){
+      if(allP.length !== 0){
       for (let i = 0; i < allP.length; i++) {
         if (i === allP.length - 1) {
           p = allP[i];
@@ -84,14 +102,11 @@
       let url =
         "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.song.play&songid=" +
         id;
-      function getData(url) {
         return $.ajax({
           type: "GET",
           dataType: "jsonp",
           url: url
-        });
-      }
-      return getData(url).then(data => {
+        }).then(data => {
         Object.assign(this.data.song, data);
         return this.data;
       });
@@ -100,16 +115,13 @@
       let url =
         "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.song.lry&songid=" +
         id;
-      function getLrc(url) {
         return $.ajax({
           type: "GET",
           dataType: "jsonp",
           url: url
-        });
-      }
-      return getLrc(url).then(data => {
+        }).then(data => {
         this.data.song.lyrics = data;
-
+        console.log(data)
         return data;
       });
     }
@@ -125,22 +137,7 @@
         this.view.play();
       });
       this.model.getSongLrc(id).then(data => {
-        let { lrcContent } = data;
-        lrcContent.split("\n").map(string => {
-          let p = document.createElement("p");
-          let regex = /\[([\d:.]+)\](.+)/;
-          // 声明一个正则表达式
-          let matches = string.match(regex);
-          // 将lrcContent里的string用正则表达式进行分组，若不符合正则表达式则不会进行分组
-          // 将string的内容放在matches的第一项，[]里的放在第二项，[]外的放在第三项
-          if (matches) {
-            p.textContent = matches[2];
-            let parts = matches[1].split(":");
-            let time = parseInt(parts[0], 10) * 60 + parseFloat(parts[1], 10);
-            p.setAttribute("data-time", time);
-            this.view.$el.find(".lyric>.lines").append(p);
-          }
-        });
+        this.view.pushLyric(data)
       });
       this.bindEvents();
     },

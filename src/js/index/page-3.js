@@ -65,14 +65,11 @@
       let url =
         "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.search.catalogSug&query=" +
         data;
-      function getsongs(url) {
         return $.ajax({
           type: "GET",
           dataType: "jsonp",
           url: url
-        });
-      }
-      return getsongs(url).then(data => {
+        }).then(data => {
         // Object.assign(this.data.songs, data.song);
         this.data.songs = data.song
         return this.data;
