@@ -63,7 +63,7 @@
     },
     find(data) {
       let url =
-        "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.search.catalogSug&query=" +
+        "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.catalogSug&query=" +
         data;
         return $.ajax({
           type: "GET",

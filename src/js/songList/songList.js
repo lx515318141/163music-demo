@@ -53,7 +53,7 @@
     },
     getList(id, title) {
       let url =
-        "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.billboard.billList&type=" +
+        "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.billboard.billList&type=" +
         id +
         "&size=30&offset=0";
       this.data.title = title;

@@ -100,7 +100,7 @@
     },
     get(id) {
       let url =
-        "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.song.play&songid=" +
+        "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid=" +
         id;
         return $.ajax({
           type: "GET",
@@ -113,7 +113,7 @@
     },
     getSongLrc(id) {
       let url =
-        "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.song.lry&songid=" +
+        "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.lry&songid=" +
         id;
         return $.ajax({
           type: "GET",

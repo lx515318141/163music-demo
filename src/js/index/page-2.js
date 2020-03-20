@@ -55,7 +55,7 @@
     find() {
         return $.ajax({
           url:
-            "http://tingapi.ting.baidu.com/v1/restserver/ting?format=json&calback=&from=webapp_music&method=baidu.ting.billboard.billList&type=2&size=20&offset=0",
+            "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.billboard.billList&type=2&size=20&offset=0",
           type: "get",
           dataType: "jsonp"
         }).then(data => {
