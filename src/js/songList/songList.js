@@ -25,9 +25,9 @@
         </li>
     `,
     render(data) {
-      document.title = data.title
+      document.title = data.title;
       let { songs } = data;
-      songs.map(song => {
+      songs.map((song) => {
         let $li = $(
           this.template
             .replace("{{song.title}}", song.title)
@@ -45,29 +45,27 @@
         .attr("src", `./img/${data.id}.jpg`);
       this.$el.find(".summary h2").html(data.title);
       this.$el.find(".label>span").html(data.label);
-    }
+    },
   };
   let model = {
     data: {
-      songs: []
+      songs: [],
     },
-    getList(id, title) {
-      let url =
-        "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.billboard.billList&type=" +
-        id +
-        "&size=30&offset=0";
-      this.data.title = title;
-        return $.ajax({
-          url: url,
-          type: "GET",
-          dataType: "jsonp"
-        }).then(data => {
-        Object.assign(this.data.songs, data.song_list);
-        this.data.id = data.billboard.billboard_type;
-        this.data.label = data.billboard.name;
-        return this.data;
-      });
-    }
+    getList(suc, err, id) {
+      commom.find(
+        (data) => {
+          Object.assign(this.data.songs, data.song_list);
+          this.data.label = data.billboard.name;
+          suc(this.data);
+        },
+        (errInfor) => {
+          alert("获取歌单失败");
+          err(errInfor);
+        },
+        id,
+        "30"
+      );
+    },
   };
   let controller = {
     init(view, model) {
@@ -76,10 +74,18 @@
       this.view.init();
       this.getId();
       let id = this.getId().id;
+      this.model.data.id = id
       let title = this.getId().title;
-      this.model.getList(id, title).then(data => {
-        this.view.render(data);
-      });
+      this.model.data.title = title;
+      this.model.getList(
+        (data) => {
+          this.view.render(data);
+        },
+        (err) => {
+          allert(err);
+        },
+        id,
+      );
     },
     getId() {
       let search = window.location.search;
@@ -88,14 +94,9 @@
       let info = {};
       info.id = serachArray[0].split("=")[1];
       info.title = decodeURIComponent(serachArray[1].split("=")[1]);
-      // if (search.indexOf("?") === 0) {
-      //   //  indexOf可返回指定字符在字符串中首次出现的位置
-      //   id = search.substring(1);
-      //   //  substring可输入一个或两个参数，一个参数时可提取参数位置之后的字符串，两个参数时可提取介于两个参数之间的字符串
-      // }
 
       return info;
-    }
+    },
   };
   controller.init(view, model);
 }

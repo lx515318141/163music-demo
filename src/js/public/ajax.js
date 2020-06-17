@@ -1,10 +1,21 @@
 let commom = {
-    find(resolve, reject) {
+    find(resolve, reject, id, size, kind) {
+      let url
+      if(size){
+        url = "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.billboard.billList&type=" + id + "&size=" + size + "&offset=0"
+      }else{
+        if(kind === 'play'){
+          url =  "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.play&songid=" + id
+        }else if(kind === 'lry'){
+          url =  "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.song.lry&songid=" + id;
+        }else{
+          url = "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.catalogSug&query=" + id;
+        }
+      }
         $.ajax({
           type: "GET",
           dataType: "jsonp",
-          url:
-            "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.billboard.billList&type=1&size=10&offset=0"
+          url: url
         }).then((data)=>{
          resolve(data)
         }).catch((err)=>{
@@ -13,23 +24,3 @@ let commom = {
       }
 }
 
-
-
-
-
-// let _self = this;
-// function fn(data){
-//   console.log(data)
-//   console.log(_self .model)
-//   _self .model.data.songs = data.song_list;
-//   console.log(_self .model.data.songs)
-// }
-
-// commom.find((data) => {
-// 	 console.log(data)
-//          console.log(this.model)
-//          this.model.data.songs = data.song_list;
-//          console.log(this.model.data.songs)
-// 	}, (err)=>{
-//          alert('x');
-//        })

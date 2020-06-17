@@ -30,7 +30,7 @@
     render(data) {
       let { songs } = data;
       this.$el.find(".hot_header>.header_wrapper>.update>p").html(data.update);
-      songs.map(song => {
+      songs.map((song) => {
         let $li = $(
           this.tempalte
             .replace("{{song.title}}", song.title)
@@ -38,7 +38,7 @@
             .replace("{{song.author}}", song.author)
             .replace("{{song.number}}", song.rank)
         );
-        this.$el.find('.hotList>ol').append($li)
+        this.$el.find(".hotList>ol").append($li);
       });
     },
     show() {
@@ -46,24 +46,27 @@
     },
     hide() {
       this.$el.removeClass("active");
-    }
+    },
   };
   let model = {
     data: {
-      songs: []
+      songs: [],
     },
-    find() {
-        return $.ajax({
-          url:
-            "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.billboard.billList&type=2&size=20&offset=0",
-          type: "get",
-          dataType: "jsonp"
-        }).then(data => {
-        Object.assign(this.data.songs, data.song_list);
-        this.data.update = data.billboard.update_date;
-        return this.data;
-      });
-    }
+    find(suc, err) {
+      commom.find(
+        (data) => {
+          Object.assign(this.data.songs, data.song_list);
+          this.data.update = data.billboard.update_date;
+          suc(this.data);
+        },
+        (errInfor) => {
+          alert("获取歌单失败");
+          err(ererrInforr);
+        },
+        "2",
+        "20"
+      );
+    },
   };
   let controller = {
     init(view, model) {
@@ -74,18 +77,23 @@
     },
 
     bindEventHub() {
-      window.eventHub.on("selectTab", tabName => {
+      window.eventHub.on("selectTab", (tabName) => {
         if (tabName === "page-2") {
-          this.model.find().then(data => {
-            this.view.$el.find(".square-spin").addClass('active')
-            this.view.render(data);
-          });
+          this.model.find(
+            (data) => {
+              this.view.$el.find(".square-spin").addClass("active");
+              this.view.render(data);
+            },
+            (err) => {
+              alert(err);
+            }
+          );
           this.view.show();
         } else {
           this.view.hide();
         }
       });
-    }
+    },
   };
   controller.init(view, model);
 }

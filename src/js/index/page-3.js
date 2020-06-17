@@ -61,19 +61,18 @@
     data: {
       songs: []
     },
-    find(data) {
-      let url =
-        "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.catalogSug&query=" +
-        data;
-        return $.ajax({
-          type: "GET",
-          dataType: "jsonp",
-          url: url
-        }).then(data => {
-        // Object.assign(this.data.songs, data.song);
-        this.data.songs = data.song
-        return this.data;
-      });
+    find(suc, err, id) {
+      commom.find(
+        (data) => {
+          this.data.songs = data.song
+          suc(this.data)
+        },
+        (errInfor) => {
+          alert('获取歌曲失败')
+          err(errInfor)
+        },
+        id
+      )
     }
   };
   let controller = {
@@ -101,14 +100,20 @@
       });
       this.view.$el.on("submit", "form", e => {
         let content = this.view.$el.find("input").val();
-        this.model.find(content).then(data => {
-          if (this.view.$el.find("ol").html()) {
-            this.view.clearList();
-            this.view.render(data)
-          } else {
-            this.view.render(data);
-          }
-        });
+        this.model.find(
+          data => {
+            if (this.view.$el.find("ol").html()) {
+              this.view.clearList();
+              this.view.render(data)
+            } else {
+              this.view.render(data);
+            }
+          },
+          (err) => {
+            alert(err)
+          },
+          content
+          );
       });
       this.view.$el.on("click", "div.right", e => {
         this.view.clearContent();

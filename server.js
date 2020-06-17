@@ -5,7 +5,6 @@ var querystring = require("querystring");
 var port = process.argv[2]
 
 if(!port){
-  console.log('请指定端口号好不啦？\nnode server.js 8888 这样不会吗？')
   process.exit(1)
 }
 
@@ -17,6 +16,7 @@ var server = http.createServer(function(request, response){
   var path = parsedUrl.pathname
   var query = parsedUrl.query
   var method = request.method
+  
 
   /******** 从这里开始看，上面不要看 ************/
   if(path === '/uptoken' && method === 'POST'){
@@ -60,9 +60,7 @@ var server = http.createServer(function(request, response){
     request.on('end', function(){
       Data = querystring.parse(Data)
       // 将字符串转换成对象
-      console.log(Data)
       db = JSON.parse(fs.readFileSync('./data-bank', 'utf8',))
-      console.log(db)
       for(let i=0; i<db.length; i++){
         if(db[i].id === Data.id){
           db[i] = Data
@@ -82,6 +80,5 @@ var server = http.createServer(function(request, response){
 })
 
 server.listen(port)
-console.log('监听 ' + port + ' 成功\n请用在空中转体720度然后用电饭煲打开 http://localhost:' + port)
 
  
